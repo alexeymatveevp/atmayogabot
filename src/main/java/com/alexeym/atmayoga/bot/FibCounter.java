@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga;
+package com.alexeym.atmayoga.bot;
 
 /**
  * Created by Alexey Matveev on 6/4/2018.
