@@ -7,7 +7,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 /**
  * Created by Alexey Matveev on 6/4/2018.
  */
-public class Main {
+public class BotStarter {
 
     static {
         ApiContextInitializer.init();
