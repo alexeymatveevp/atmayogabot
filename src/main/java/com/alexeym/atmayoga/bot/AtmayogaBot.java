@@ -1,6 +1,7 @@
 package com.alexeym.atmayoga.bot;
 
 import com.alexeym.atmayoga.common.PrettyPrinter;
+import com.alexeym.atmayoga.common.TimeTypeResolver;
 import com.alexeym.atmayoga.common.YogaUser;
 import com.alexeym.atmayoga.common.YogaUserStorage;
 import com.alexeym.atmayoga.google.SheetQueryService;
@@ -87,6 +88,32 @@ public class AtmayogaBot extends TelegramLongPollingBot {
                 } else if (messageEntity.getType().equals("bot_command") && text.equals("/link")) {
                     // handle link command
                     sendMsg(createMsg(chatId, "Вот ссылка на наш список:\n" + LINK_TO_SHEET));
+                    return;
+                } else if (messageEntity.getType().equals("bot_command") && text.equals("/kotik")) {
+                    // handle kotik command
+                    TimeTypeResolver.TimeType timeType = TimeTypeResolver.getCurrentTimeType();
+                    String response;
+                    if (timeType == TimeTypeResolver.TimeType.MORNING) {
+                        response = "мурмурмур";
+                    } else if (timeType == TimeTypeResolver.TimeType.DAY) {
+                        long t = Math.round(Math.random() * 5);
+                        if (t == 0) {
+                            response = "^_^";
+                        } else if (t == 1) {
+                            response = "O_O";
+                        } else if (t == 2) {
+                            response = "фффф!";
+                        } else if (t == 3) {
+                            response = "кусь";
+                        } else {
+                            response = "цмок *=";
+                        }
+                    } else if (timeType == TimeTypeResolver.TimeType.EVENING) {
+                        response = "ну что котик?";
+                    } else {
+                        response = "спать иди, завтра много дел";
+                    }
+                    sendMsg(createMsg(chatId, response));
                     return;
                 }
 
