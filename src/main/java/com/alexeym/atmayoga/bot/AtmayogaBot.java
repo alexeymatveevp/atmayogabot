@@ -1,25 +1,39 @@
 package com.alexeym.atmayoga.bot;
 
+import com.alexeym.atmayoga.accuweather.AdoptedWeatherResponse;
+import com.alexeym.atmayoga.accuweather.WeatherService;
+import com.alexeym.atmayoga.bot.command.BotCommand;
+import com.alexeym.atmayoga.bot.command.KotikCommand;
+import com.alexeym.atmayoga.bot.command.LinkCommand;
+import com.alexeym.atmayoga.bot.command.ListCommand;
+import com.alexeym.atmayoga.bot.command.MyActivityCommand;
+import com.alexeym.atmayoga.bot.command.StartCommand;
+import com.alexeym.atmayoga.bot.command.TavrikCommand;
 import com.alexeym.atmayoga.common.PrettyPrinter;
 import com.alexeym.atmayoga.common.TimeTypeResolver;
 import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.common.YogaUserStorage;
 import com.alexeym.atmayoga.google.SheetQueryService;
+import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.MessageEntity;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.User;
+import org.telegram.telegrambots.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,96 +42,49 @@ import java.util.List;
  */
 public class AtmayogaBot extends TelegramLongPollingBot {
 
-    private static final String LINK_TO_SHEET = "https://docs.google.com/spreadsheets/d/1b7kQqBXbqohJ7hSI546eQu0MMOL1fg3vW5KldtzcvSA/edit#gid=0";
+    UserStorage userStorage = new UserStorage();
 
-    SheetQueryService sheetQueryService = new SheetQueryService();
+    StartCommand startCommand = new StartCommand();
+    ListCommand listCommand = new ListCommand();
+    LinkCommand linkCommand = new LinkCommand();
+    KotikCommand kotikCommand = new KotikCommand();
+    TavrikCommand tavrikCommand = new TavrikCommand();
+    MyActivityCommand myActivityCommand = new MyActivityCommand();
 
     public static final String I_AM_A_HAMSTER = "I am a hamster...";
 
     public void onUpdateReceived(Update update) {
-        System.out.println("Update received");
         System.out.println(update);
         if (update.hasMessage()) {
             Message userMsg = update.getMessage();
             Long chatId = userMsg.getChatId();
             String text = userMsg.getText();
-            List<MessageEntity> entities = userMsg.getEntities();
             User user = userMsg.getFrom();
 
-            if (entities != null) {
-                MessageEntity messageEntity = entities.get(0);
-                if (messageEntity.getType().equals("bot_command") && text.equals("/start")) {
-                    // handle start command
-                    // remember new user or check existing
-                    YogaUser yogaUser = YogaUserStorage.usersMap.get(user.getId());
-                    if (yogaUser == null) {
-                        yogaUser = new YogaUser(user.getId(), user.getFirstName(), user.getLastName());
-                        YogaUserStorage.usersMap.put(user.getId(), yogaUser);
-                    }
-                    String t = "Привет, новый Атмаёжик! :)\n\n";
-                    t+="Вот что ты можешь сделать:\n\n";
-                    t+="/link - получить ссылку на таблицу занятий\n\n";
-                    t+="/list - получить сводку по твоим занятиям";
-                    sendMsg(createMsg(chatId, t));
-                } else if (messageEntity.getType().equals("bot_command") && text.equals("/list")) {
-                    // handle list command
-                    try {
-                        List<YogaUser> allUsers = sheetQueryService.getAllUsers();
-                        for (YogaUser yogaUser : allUsers) {
-                            // try to merge with existing user
-                            if (user.getFirstName().equals(yogaUser.getFirstName()) && user.getLastName().equals(yogaUser.getLastName())) {
-                                YogaUser storedYogaUser = YogaUserStorage.usersMap.get(user.getId());
-                                if (storedYogaUser == null) {
-                                    storedYogaUser = yogaUser;
-                                    YogaUserStorage.usersMap.put(user.getId(), storedYogaUser);
-                                }
-                                storedYogaUser.setId(user.getId());
-                                storedYogaUser.setPracticeMap(yogaUser.getPracticeMap());
-                                String responseMsg = PrettyPrinter.prettyUserPractice(yogaUser);
-                                sendMsg(createMsg(chatId, responseMsg));
-                                return;
-                            }
-                        }
-                        sendMsg(createMsg(chatId, "Хм.. может тебя нет в нашем списке? Добавляйся!\n" + LINK_TO_SHEET));
-                        return;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        sendMsg(createMsg(chatId, "Хм.. что-то пошло не так"));
-                        return;
-                    }
-                } else if (messageEntity.getType().equals("bot_command") && text.equals("/link")) {
-                    // handle link command
-                    sendMsg(createMsg(chatId, "Вот ссылка на наш список:\n" + LINK_TO_SHEET));
-                    return;
-                } else if (messageEntity.getType().equals("bot_command") && text.equals("/kotik")) {
-                    // handle kotik command
-                    TimeTypeResolver.TimeType timeType = TimeTypeResolver.getCurrentTimeType();
-                    String response;
-                    if (timeType == TimeTypeResolver.TimeType.MORNING) {
-                        response = "мурмурмур";
-                    } else if (timeType == TimeTypeResolver.TimeType.DAY) {
-                        long t = Math.round(Math.random() * 5);
-                        if (t == 0) {
-                            response = "^_^";
-                        } else if (t == 1) {
-                            response = "O_O";
-                        } else if (t == 2) {
-                            response = "фффф!";
-                        } else if (t == 3) {
-                            response = "кусь";
-                        } else {
-                            response = "цмок *=";
-                        }
-                    } else if (timeType == TimeTypeResolver.TimeType.EVENING) {
-                        response = "ну что котик?";
-                    } else {
-                        response = "спать иди, завтра много дел";
-                    }
-                    sendMsg(createMsg(chatId, response));
-                    return;
-                }
+            // just ping storage that another user is here
+            userStorage.anotherUserCame(user);
 
+            // handle text command
+            if (text != null) {
+                // make bot command
+                BotCommand command = null;
+                if (text.equals(BotCommand.START)) command = startCommand;
+                else if (text.equals(BotCommand.LIST)) command = listCommand;
+                else if (text.equals(BotCommand.LINK)) command = linkCommand;
+                else if (text.equals(BotCommand.KOTIK)) command = kotikCommand;
+                else if (text.equals(BotCommand.TAVRIK)) command = tavrikCommand;
+                else if (text.equals(BotCommand.MY_ACTIVITY)) command = myActivityCommand;
+
+                // execute it and send response
+                if (command != null) {
+                    String responseToUser = command.executeAndGetUserResponse(userMsg, this);
+                    if (responseToUser != null) {
+                        sendMsg(BotUtils.createTextMsg(chatId, responseToUser));
+                    }
+                }
             }
+
+
 
             // handle
 
@@ -141,18 +108,11 @@ public class AtmayogaBot extends TelegramLongPollingBot {
                 }
             }
         }
-
-    }
-
-    SendMessage createMsg(Long chatId, String text) {
-        SendMessage s = new SendMessage();
-        s.setChatId(chatId); // Боту может писать не один человек, и поэтому чтобы отправить сообщение, грубо говоря нужно узнать куда его отправлять
-        s.setText(text);
-        return s;
     }
 
     private void sendMsg(SendMessage msg) {
-        try { //Чтобы не крашнулась программа при вылете Exception
+        try {
+//            setButtons(msg);
             sendMessage(msg);
         } catch (TelegramApiException e){
             e.printStackTrace();
@@ -173,12 +133,13 @@ public class AtmayogaBot extends TelegramLongPollingBot {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Привет"));
+        keyboardFirstRow.add(new KeyboardButton("/start"));
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Помощь"));
+        KeyboardButton btn2 = new KeyboardButton("/kotik");
+        keyboardSecondRow.add(btn2);
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);

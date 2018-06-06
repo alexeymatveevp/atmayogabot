@@ -1,0 +1,160 @@
+{
+  "Headline": {
+    "EffectiveDate": "2018-06-06T13:00:00+03:00",
+    "EffectiveEpochDate": 1528279200,
+    "Severity": 5,
+    "Text": "Среда, день: ожидаются ливни",
+    "Category": "rain",
+    "EndDate": "2018-06-06T19:00:00+03:00",
+    "EndEpochDate": 1528300800,
+    "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/extended-weather-forecast/295212",
+    "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212"
+  },
+  "DailyForecasts": [
+    {
+      "Date": "2018-06-06T07:00:00+03:00",
+      "EpochDate": 1528257600,
+      "Temperature": {
+        "Minimum": {
+          "Value": 44,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 57,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 14,
+        "IconPhrase": "Небольшая облачность с дождями"
+      },
+      "Night": {
+        "Icon": 38,
+        "IconPhrase": "Преимущественно облачно"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=1",
+      "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=1"
+    },
+    {
+      "Date": "2018-06-07T07:00:00+03:00",
+      "EpochDate": 1528344000,
+      "Temperature": {
+        "Minimum": {
+          "Value": 46,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 58,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 12,
+        "IconPhrase": "Ливни"
+      },
+      "Night": {
+        "Icon": 7,
+        "IconPhrase": "Облачно"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=2",
+      "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=2"
+    },
+    {
+      "Date": "2018-06-08T07:00:00+03:00",
+      "EpochDate": 1528430400,
+      "Temperature": {
+        "Minimum": {
+          "Value": 41,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 58,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 13,
+        "IconPhrase": "Преимущественно облачно с ливнями"
+      },
+      "Night": {
+        "Icon": 35,
+        "IconPhrase": "Облачно с прояснениями"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=3",
+      "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=3"
+    },
+    {
+      "Date": "2018-06-09T07:00:00+03:00",
+      "EpochDate": 1528516800,
+      "Temperature": {
+        "Minimum": {
+          "Value": 44,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 60,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 3,
+        "IconPhrase": "Небольшая облачность"
+      },
+      "Night": {
+        "Icon": 38,
+        "IconPhrase": "Преимущественно облачно"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=4",
+      "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=4"
+    },
+    {
+      "Date": "2018-06-10T07:00:00+03:00",
+      "EpochDate": 1528603200,
+      "Temperature": {
+        "Minimum": {
+          "Value": 49,
+          "Unit": "F",
+          "UnitType": 18
+        },
+        "Maximum": {
+          "Value": 65,
+          "Unit": "F",
+          "UnitType": 18
+        }
+      },
+      "Day": {
+        "Icon": 6,
+        "IconPhrase": "Преимущественно облачно"
+      },
+      "Night": {
+        "Icon": 7,
+        "IconPhrase": "Облачно"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=5",
+      "Link": "http://www.accuweather.com/ru/ru/saint-petersburg/295212/daily-weather-forecast/295212?day=5"
+    }
+  ]
+}

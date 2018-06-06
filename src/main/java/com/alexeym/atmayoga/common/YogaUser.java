@@ -1,5 +1,8 @@
 package com.alexeym.atmayoga.common;
 
+import io.jsondb.annotation.Document;
+import io.jsondb.annotation.Id;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -7,11 +10,14 @@ import java.util.TreeMap;
 /**
  * @author Alexey Matveev on 05.06.2018
  */
+@Document(collection = "yogaUsers", schemaVersion= "1.0")
 public class YogaUser {
 
+    @Id
     private Integer id;
     private String firstName;
     private String lastName;
+    private int numberOfMessagesThisWeek;
     private Map<String, Practice> practiceMap = new TreeMap<>();
 
     public YogaUser() {
@@ -53,5 +59,13 @@ public class YogaUser {
 
     public void setPracticeMap(Map<String, Practice> practiceMap) {
         this.practiceMap = practiceMap;
+    }
+
+    public int getNumberOfMessagesThisWeek() {
+        return numberOfMessagesThisWeek;
+    }
+
+    public void setNumberOfMessagesThisWeek(int numberOfMessagesThisWeek) {
+        this.numberOfMessagesThisWeek = numberOfMessagesThisWeek;
     }
 }

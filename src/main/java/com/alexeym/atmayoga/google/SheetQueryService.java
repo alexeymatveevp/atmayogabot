@@ -82,6 +82,7 @@ public class SheetQueryService {
                 if (currentYogaUser != null && !result.contains(currentYogaUser)) {
                     result.add(currentYogaUser);
                 }
+                if (rowNumber > 4) break;
             }
             return result;
         }

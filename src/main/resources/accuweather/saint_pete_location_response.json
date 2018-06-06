@@ -1,0 +1,17 @@
+[
+  {
+    "Version": 1,
+    "Key": "295212",
+    "Type": "City",
+    "Rank": 11,
+    "LocalizedName": "Санкт-Петербург",
+    "Country": {
+      "ID": "RU",
+      "LocalizedName": "Россия"
+    },
+    "AdministrativeArea": {
+      "ID": "SPE",
+      "LocalizedName": "Санкт-Петербург"
+    }
+  }
+]
