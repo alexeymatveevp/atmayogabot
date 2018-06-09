@@ -1,28 +1,19 @@
 package com.alexeym.atmayoga.bot;
 
-import com.alexeym.atmayoga.accuweather.AdoptedWeatherResponse;
-import com.alexeym.atmayoga.accuweather.WeatherService;
 import com.alexeym.atmayoga.bot.command.BotCommand;
 import com.alexeym.atmayoga.bot.command.KotikCommand;
 import com.alexeym.atmayoga.bot.command.LinkCommand;
-import com.alexeym.atmayoga.bot.command.ListCommand;
+import com.alexeym.atmayoga.bot.command.LastTrainingCommand;
 import com.alexeym.atmayoga.bot.command.MyActivityCommand;
 import com.alexeym.atmayoga.bot.command.StartCommand;
 import com.alexeym.atmayoga.bot.command.TavrikCommand;
-import com.alexeym.atmayoga.common.PrettyPrinter;
-import com.alexeym.atmayoga.common.TimeTypeResolver;
-import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.google.SheetQueryService;
 import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.MessageEntity;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.User;
-import org.telegram.telegrambots.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardRemove;
@@ -32,8 +23,6 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +34,7 @@ public class AtmayogaBot extends TelegramLongPollingBot {
     UserStorage userStorage = new UserStorage();
 
     StartCommand startCommand = new StartCommand();
-    ListCommand listCommand = new ListCommand();
+    LastTrainingCommand lastTrainingCommand = new LastTrainingCommand();
     LinkCommand linkCommand = new LinkCommand();
     KotikCommand kotikCommand = new KotikCommand();
     TavrikCommand tavrikCommand = new TavrikCommand();
@@ -62,22 +51,22 @@ public class AtmayogaBot extends TelegramLongPollingBot {
             User user = userMsg.getFrom();
 
             // just ping storage that another user is here
-            userStorage.anotherUserCame(user);
+            userStorage.anotherUserCame(user, userMsg);
 
             // handle text command
             if (text != null) {
                 // make bot command
                 BotCommand command = null;
                 if (text.equals(BotCommand.START)) command = startCommand;
-                else if (text.equals(BotCommand.LIST)) command = listCommand;
-                else if (text.equals(BotCommand.LINK)) command = linkCommand;
-                else if (text.equals(BotCommand.KOTIK)) command = kotikCommand;
+                else if (text.equals(BotCommand.TRAINING_LINK)) command = linkCommand;
+                else if (text.equals(BotCommand.TRAINING_LAST)) command = lastTrainingCommand;
                 else if (text.equals(BotCommand.TAVRIK)) command = tavrikCommand;
-                else if (text.equals(BotCommand.MY_ACTIVITY)) command = myActivityCommand;
+                else if (text.equals(BotCommand.ACTIVITY)) command = myActivityCommand;
+                else if (text.equals(BotCommand.KOTIK)) command = kotikCommand;
 
                 // execute it and send response
                 if (command != null) {
-                    String responseToUser = command.executeAndGetUserResponse(userMsg, this);
+                    String responseToUser = command.executeAndGetUserResponse(userMsg);
                     if (responseToUser != null) {
                         sendMsg(BotUtils.createTextMsg(chatId, responseToUser));
                     }
@@ -110,13 +99,18 @@ public class AtmayogaBot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMsg(SendMessage msg) {
+    public void sendMsg(SendMessage msg) {
         try {
 //            setButtons(msg);
+            resetKeyboard(msg);
             sendMessage(msg);
         } catch (TelegramApiException e){
             e.printStackTrace();
         }
+    }
+
+    public void resetKeyboard(SendMessage msg) {
+        msg.setReplyMarkup(new ReplyKeyboardRemove());
     }
 
     public void setButtons(SendMessage sendMessage) {

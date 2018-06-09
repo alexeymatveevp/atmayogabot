@@ -14,7 +14,7 @@ public class MyActivityCommand implements BotCommand {
     UserStorage userStorage = new UserStorage();
 
     @Override
-    public String executeAndGetUserResponse(Message userMsg, AtmayogaBot bot) {
+    public String executeAndGetUserResponse(Message userMsg) {
         YogaUser yogaUser = userStorage.getUser(userMsg.getFrom().getId());
         int messagesNum = yogaUser.getNumberOfMessagesThisWeek();
         if (messagesNum < 5) {

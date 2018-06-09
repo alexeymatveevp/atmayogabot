@@ -3,7 +3,9 @@ package com.alexeym.atmayoga.common;
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -19,6 +21,7 @@ public class YogaUser {
     private String lastName;
     private int numberOfMessagesThisWeek;
     private Map<String, Practice> practiceMap = new TreeMap<>();
+    private List<String> messages = new ArrayList<>();
 
     public YogaUser() {
     }
@@ -67,5 +70,17 @@ public class YogaUser {
 
     public void setNumberOfMessagesThisWeek(int numberOfMessagesThisWeek) {
         this.numberOfMessagesThisWeek = numberOfMessagesThisWeek;
+    }
+
+    public List<String> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(String message) {
+        this.messages.add(message);
     }
 }

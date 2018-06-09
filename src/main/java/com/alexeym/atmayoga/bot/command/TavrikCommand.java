@@ -18,7 +18,7 @@ public class TavrikCommand implements BotCommand {
     WeatherService weatherService = new WeatherService();
 
     @Override
-    public String executeAndGetUserResponse(Message userMsg, AtmayogaBot bot) {
+    public String executeAndGetUserResponse(Message userMsg) {
         try {
             AdoptedWeatherResponse response = weatherService.getClosestWeekendWeatherSummary();
             if (response == null) {

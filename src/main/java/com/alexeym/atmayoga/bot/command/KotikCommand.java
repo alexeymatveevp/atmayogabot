@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.bot.command;
 
+import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.bot.AtmayogaBot;
 import com.alexeym.atmayoga.bot.BotUtils;
 import com.alexeym.atmayoga.common.TimeTypeResolver;
@@ -17,7 +18,7 @@ public class KotikCommand implements BotCommand {
     public static final String KOTIK_STICKER_3 = "CAADAgADcQEAAjbsGwXNjEIRlFWV3gI";
 
     @Override
-    public String executeAndGetUserResponse(Message userMsg, AtmayogaBot bot) {
+    public String executeAndGetUserResponse(Message userMsg) {
         // handle kotik command
         TimeTypeResolver.TimeType timeType = TimeTypeResolver.getCurrentTimeType();
         // sticker easter egg
@@ -29,7 +30,7 @@ public class KotikCommand implements BotCommand {
         if (stickerId != null) {
             SendSticker stickerMsg = BotUtils.createStickerMsg(userMsg.getChatId(), stickerId);
             try {
-                bot.sendSticker(stickerMsg);
+                GlobalContext.BOT.sendSticker(stickerMsg);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

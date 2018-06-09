@@ -1,6 +1,8 @@
 package com.alexeym.atmayoga.storage;
 
+import com.alexeym.atmayoga.common.UserMetadata;
 import com.alexeym.atmayoga.common.YogaUser;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 
 import java.util.HashSet;
@@ -24,7 +26,7 @@ public class UserStorage {
         return JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
     }
 
-    public void anotherUserCame(User user) {
+    public void anotherUserCame(User user, Message userMsg) {
         Integer id = user.getId();
         YogaUser yogaUser = JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
         if (yogaUser == null) {
@@ -36,7 +38,19 @@ public class UserStorage {
             yogaUser = newUser;
         }
         yogaUser.setNumberOfMessagesThisWeek(yogaUser.getNumberOfMessagesThisWeek() + 1);
+        String text = userMsg.getText();
+        if (text != null && !text.startsWith("/")) {
+            yogaUser.addMessage(text);
+        }
         JsonDBInit.jsonDBTemplate.upsert(yogaUser);
+    }
+
+    public UserMetadata findUserMetadata(Integer userId) {
+        return JsonDBInit.jsonDBTemplate.findById(userId, UserMetadata.class);
+    }
+
+    public void updateUserMetadata(UserMetadata metadata) {
+        JsonDBInit.jsonDBTemplate.upsert(metadata);
     }
     
 }

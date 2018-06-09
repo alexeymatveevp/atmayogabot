@@ -1,9 +1,7 @@
 package com.alexeym.atmayoga.google;
 
-import com.alexeym.atmayoga.common.PrettyPrinter;
 import com.alexeym.atmayoga.common.YogaUser;
-
-import java.util.List;
+import com.alexeym.atmayoga.common.YogaUserTrainingItem;
 
 /**
  * Created by Alexey Matveev on 6/5/2018.
@@ -12,10 +10,8 @@ public class SheetsMain {
 
 
     public static void main(String[] args) throws Exception {
-
-        SheetQueryService sheetQueryService = new SheetQueryService();
-        List<YogaUser> allYogaUsers = sheetQueryService.getAllUsers();
-//        System.out.println(allYogaUsers);
-        System.out.println(PrettyPrinter.prettyUserPractice(allYogaUsers.get(1)));
+        SheetDataProvider sheetDataProvider = new SheetDataProvider();
+        YogaUserTrainingItem userLastActivity = sheetDataProvider.getUserLastActivity(new YogaUser(null, "Евгений", "Улитин"));
+        System.out.println(userLastActivity);
     }
 }

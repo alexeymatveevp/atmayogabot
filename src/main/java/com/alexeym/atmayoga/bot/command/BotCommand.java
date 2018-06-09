@@ -10,12 +10,12 @@ import org.telegram.telegrambots.api.objects.User;
 public interface BotCommand {
 
     String START = "/start";
-    String LINK = "/link";
-    String LIST = "/list";
+    String TRAINING_LINK = "/training_link";
+    String TRAINING_LAST = "/training_last";
     String KOTIK = "/kotik";
     String TAVRIK = "/tavrik";
-    String MY_ACTIVITY = "/myactivity";
+    String ACTIVITY = "/activity";
 
-    String executeAndGetUserResponse(Message userMsg, AtmayogaBot bot);
+    String executeAndGetUserResponse(Message userMsg);
 
 }

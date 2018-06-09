@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.storage;
 
+import com.alexeym.atmayoga.common.UserMetadata;
 import com.alexeym.atmayoga.common.YogaUser;
 import io.jsondb.JsonDBTemplate;
 
@@ -22,6 +23,9 @@ public class JsonDBInit {
         // init
         if (!jsonDBTemplate.collectionExists(YogaUser.class)) {
             jsonDBTemplate.createCollection(YogaUser.class);
+        }
+        if (!jsonDBTemplate.collectionExists(UserMetadata.class)) {
+            jsonDBTemplate.createCollection(UserMetadata.class);
         }
     }
 }

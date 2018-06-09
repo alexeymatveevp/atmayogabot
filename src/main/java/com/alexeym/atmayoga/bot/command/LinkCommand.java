@@ -10,7 +10,7 @@ import org.telegram.telegrambots.api.objects.User;
  */
 public class LinkCommand implements BotCommand {
     @Override
-    public String executeAndGetUserResponse(Message userMsg, AtmayogaBot bot) {
+    public String executeAndGetUserResponse(Message userMsg) {
         return "Вот ссылка на наш список:\n" + BotMessages.LINK_TO_SHEET;
     }
 }
