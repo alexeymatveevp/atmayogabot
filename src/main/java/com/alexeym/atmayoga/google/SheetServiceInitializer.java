@@ -29,8 +29,6 @@ public class SheetServiceInitializer {
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials.
 
-    final static String ATMAYOGA_SPREADSHEET_ID = "1b7kQqBXbqohJ7hSI546eQu0MMOL1fg3vW5KldtzcvSA";
-
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved credentials/ folder.

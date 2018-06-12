@@ -5,17 +5,20 @@ import java.util.Date;
 /**
  * @author Alexey Matveev on 08.06.2018
  */
-public class YogaUserTrainingItem {
+public class TrainingItem {
 
+    /**
+     * Can be either username holder or a stored user (with id) which app knows about.
+     */
     private YogaUser user;
     private String activityCategory;
     private Date date;
     private String note;
 
-    public YogaUserTrainingItem() {
+    public TrainingItem() {
     }
 
-    public YogaUserTrainingItem(YogaUser user, String activityCategory, Date date, String note) {
+    public TrainingItem(YogaUser user, String activityCategory, Date date, String note) {
         this.user = user;
         this.activityCategory = activityCategory;
         this.date = date;

@@ -19,8 +19,7 @@ public class YogaUser {
     private Integer id;
     private String firstName;
     private String lastName;
-    private int numberOfMessagesThisWeek;
-    private Map<String, Practice> practiceMap = new TreeMap<>();
+    private String username;
     private List<String> messages = new ArrayList<>();
     private int karma;
 
@@ -31,6 +30,16 @@ public class YogaUser {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getFullName() {
+        if (firstName == null) {
+            return lastName;
+        }
+        if (lastName == null) {
+            return firstName;
+        }
+        return firstName + " " + lastName;
     }
 
     public Integer getId() {
@@ -57,20 +66,12 @@ public class YogaUser {
         this.lastName = lastName;
     }
 
-    public Map<String, Practice> getPracticeMap() {
-        return practiceMap;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPracticeMap(Map<String, Practice> practiceMap) {
-        this.practiceMap = practiceMap;
-    }
-
-    public int getNumberOfMessagesThisWeek() {
-        return numberOfMessagesThisWeek;
-    }
-
-    public void setNumberOfMessagesThisWeek(int numberOfMessagesThisWeek) {
-        this.numberOfMessagesThisWeek = numberOfMessagesThisWeek;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<String> getMessages() {

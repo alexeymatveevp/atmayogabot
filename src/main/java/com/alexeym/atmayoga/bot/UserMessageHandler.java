@@ -2,6 +2,7 @@ package com.alexeym.atmayoga.bot;
 
 import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.bot.command.*;
+import com.alexeym.atmayoga.storage.MessageStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.api.objects.User;
 public class UserMessageHandler {
 
     UserStorage userStorage = new UserStorage();
+    MessageStorage messageStorage = new MessageStorage();
 
     StartCommand startCommand = new StartCommand();
     LastTrainingCommand lastTrainingCommand = new LastTrainingCommand();
@@ -29,7 +31,12 @@ public class UserMessageHandler {
         User user = message.getFrom();
 
         // just ping storage that another user is here
-        userStorage.anotherUserCame(user, message);
+        userStorage.anotherUserCame(user);
+
+        // store non-command user messages
+        if (text != null && !text.startsWith("/")) {
+            messageStorage.addUserMessage(message);
+        }
 
         // handle text command
         if (text != null) {
@@ -39,7 +46,7 @@ public class UserMessageHandler {
             else if (text.startsWith(BotCommand.TRAINING_LINK)) command = linkCommand;
             else if (text.startsWith(BotCommand.TRAINING_LAST)) command = lastTrainingCommand;
             else if (text.startsWith(BotCommand.TAVRIK)) command = tavrikCommand;
-            else if (text.startsWith(BotCommand.ACTIVITY)) command = myActivityCommand;
+            else if (text.startsWith(BotCommand.STAT_MY_ACTIVITY)) command = myActivityCommand;
             else if (text.startsWith(BotCommand.KOTIK)) command = kotikCommand;
 
             // execute it and send response

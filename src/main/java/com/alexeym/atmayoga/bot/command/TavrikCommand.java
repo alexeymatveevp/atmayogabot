@@ -2,10 +2,8 @@ package com.alexeym.atmayoga.bot.command;
 
 import com.alexeym.atmayoga.accuweather.AdoptedWeatherResponse;
 import com.alexeym.atmayoga.accuweather.WeatherService;
-import com.alexeym.atmayoga.bot.AtmayogaBot;
-import com.alexeym.atmayoga.bot.BotMessages;
+import com.alexeym.atmayoga.BotMessages;
 import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.User;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;

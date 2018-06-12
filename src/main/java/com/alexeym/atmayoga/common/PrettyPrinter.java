@@ -9,7 +9,8 @@ public class PrettyPrinter {
 
     public static String prettyUserPractice(YogaUser yogaUser) {
         StringBuilder result = new StringBuilder("Вы занимались:\n");
-        Map<String, Practice> practiceMap = yogaUser.getPracticeMap();
+//        Map<String, Practice> practiceMap = yogaUser.getPracticeMap();
+        Map<String, Practice> practiceMap = null;
         if (practiceMap != null && !practiceMap.isEmpty()) {
             for (Map.Entry<String, Practice> entry : practiceMap.entrySet()) {
                 String date = entry.getKey();

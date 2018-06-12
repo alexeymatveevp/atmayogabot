@@ -16,7 +16,9 @@ public class MyActivityCommand implements BotCommand {
     @Override
     public String executeAndGetUserResponse(Message userMsg) {
         YogaUser yogaUser = userStorage.getUser(userMsg.getFrom().getId());
-        int messagesNum = yogaUser.getNumberOfMessagesThisWeek();
+        // TODO collect messages from store
+//        int messagesNum = yogaUser.getNumberOfMessagesThisWeek();
+        int messagesNum = 0;
         if (messagesNum < 5) {
             // too small
             return "Новенький";

@@ -1,9 +1,9 @@
 package com.alexeym.atmayoga.bot.command;
 
-import com.alexeym.atmayoga.bot.BotMessages;
+import com.alexeym.atmayoga.BotMessages;
 import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.common.YogaUserTrainingItem;
-import com.alexeym.atmayoga.google.SheetDataProvider;
+import com.alexeym.atmayoga.common.TrainingItem;
+import com.alexeym.atmayoga.google.SheetDataService;
 import com.alexeym.atmayoga.google.YogaUserMatcher;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -21,7 +21,7 @@ public class LastTrainingCommand implements BotCommand {
 
     public static final Locale LOCALE_RU = new Locale("ru");
 
-    SheetDataProvider sheetDataProvider = new SheetDataProvider();
+    SheetDataService sheetDataService = new SheetDataService();
     YogaUserMatcher yogaUserMatcher = new YogaUserMatcher();
 
     @Override
@@ -33,7 +33,7 @@ public class LastTrainingCommand implements BotCommand {
             if (yogaUser == null) {
                 yogaUser = new YogaUser(null, user.getFirstName(), user.getLastName());
             }
-            YogaUserTrainingItem userLastActivity = sheetDataProvider.getUserLastActivity(yogaUser);
+            TrainingItem userLastActivity = sheetDataService.getUserLastActivity(yogaUser);
             return interpretResults(yogaUser, userLastActivity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class LastTrainingCommand implements BotCommand {
         }
     }
 
-    public String interpretResults(YogaUser yogaUser, YogaUserTrainingItem userLastActivity) {
+    public String interpretResults(YogaUser yogaUser, TrainingItem userLastActivity) {
         if (userLastActivity == null) {
             return "Хм.. может тебя нет в нашем списке? Добавляйся!\n" + BotMessages.LINK_TO_SHEET;
         }

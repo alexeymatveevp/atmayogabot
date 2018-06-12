@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.bot;
+package com.alexeym.atmayoga;
 
 /**
  * @author Alexey Matveev on 06.06.2018

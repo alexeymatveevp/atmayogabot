@@ -9,6 +9,7 @@ import com.alexeym.atmayoga.reactions.ReactionContext;
 import com.alexeym.atmayoga.reactions.ReactionsHolder;
 import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
 import com.alexeym.atmayoga.storage.ChatStorage;
+import com.alexeym.atmayoga.storage.MessageStorage;
 import org.apache.commons.collections.CollectionUtils;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
@@ -26,11 +27,15 @@ public class GroupMessageHandler {
     ReactionsHolder reactionsHolder = new ReactionsHolder();
     ScheduledTasksManager scheduledTasksManager = new ScheduledTasksManager();
     ChatStorage chatStorage = new ChatStorage();
+    MessageStorage messageStorage = new MessageStorage();
 
     public void handleGroupMessage(Message message) {
         Long chatId = message.getChatId();
         String text = message.getText();
         User user = message.getFrom();
+
+        // remember all chat messages
+        messageStorage.addUserMessage(message);
 
         // bot added first time or new yoga users
         List<User> newChatMembers = message.getNewChatMembers();

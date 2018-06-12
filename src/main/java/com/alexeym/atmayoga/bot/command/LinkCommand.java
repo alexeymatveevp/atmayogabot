@@ -1,9 +1,7 @@
 package com.alexeym.atmayoga.bot.command;
 
-import com.alexeym.atmayoga.bot.AtmayogaBot;
-import com.alexeym.atmayoga.bot.BotMessages;
+import com.alexeym.atmayoga.BotMessages;
 import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.User;
 
 /**
  * @author Alexey Matveev on 06.06.2018

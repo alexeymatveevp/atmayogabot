@@ -26,7 +26,7 @@ public class UserStorage {
         return JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
     }
 
-    public void anotherUserCame(User user, Message userMsg) {
+    public void anotherUserCame(User user) {
         Integer id = user.getId();
         YogaUser yogaUser = JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
         if (yogaUser == null) {
@@ -37,12 +37,11 @@ public class UserStorage {
             newUser.setLastName(user.getLastName());
             yogaUser = newUser;
         }
-        yogaUser.setNumberOfMessagesThisWeek(yogaUser.getNumberOfMessagesThisWeek() + 1);
-        String text = userMsg.getText();
-        if (text != null && !text.startsWith("/")) {
-            yogaUser.addMessage(text);
-        }
         JsonDBInit.jsonDBTemplate.upsert(yogaUser);
+//        String text = userMsg.getText();
+//        if (text != null && !text.startsWith("/")) {
+//            yogaUser.addMessage(text);
+//        }
     }
 
     public UserMetadata findUserMetadata(Integer userId) {
