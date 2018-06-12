@@ -8,6 +8,8 @@ import com.alexeym.atmayoga.bot.command.MyActivityCommand;
 import com.alexeym.atmayoga.bot.command.StartCommand;
 import com.alexeym.atmayoga.bot.command.TavrikCommand;
 import com.alexeym.atmayoga.storage.UserStorage;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
@@ -31,57 +33,29 @@ import java.util.List;
  */
 public class AtmayogaBot extends TelegramLongPollingBot {
 
-    UserStorage userStorage = new UserStorage();
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    StartCommand startCommand = new StartCommand();
-    LastTrainingCommand lastTrainingCommand = new LastTrainingCommand();
-    LinkCommand linkCommand = new LinkCommand();
-    KotikCommand kotikCommand = new KotikCommand();
-    TavrikCommand tavrikCommand = new TavrikCommand();
-    MyActivityCommand myActivityCommand = new MyActivityCommand();
-
-    public static final String I_AM_A_HAMSTER = "I am a hamster...";
+    UserMessageHandler userMessageHandler = new UserMessageHandler();
+    GroupMessageHandler groupMessageHandler = new GroupMessageHandler();
 
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
+        try {
+            System.out.println(objectMapper.writeValueAsString(update));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         if (update.hasMessage()) {
-            Message userMsg = update.getMessage();
-            Long chatId = userMsg.getChatId();
-            String text = userMsg.getText();
-            User user = userMsg.getFrom();
-
-            // just ping storage that another user is here
-            userStorage.anotherUserCame(user, userMsg);
-
-            // handle text command
-            if (text != null) {
-                // make bot command
-                BotCommand command = null;
-                if (text.equals(BotCommand.START)) command = startCommand;
-                else if (text.equals(BotCommand.TRAINING_LINK)) command = linkCommand;
-                else if (text.equals(BotCommand.TRAINING_LAST)) command = lastTrainingCommand;
-                else if (text.equals(BotCommand.TAVRIK)) command = tavrikCommand;
-                else if (text.equals(BotCommand.ACTIVITY)) command = myActivityCommand;
-                else if (text.equals(BotCommand.KOTIK)) command = kotikCommand;
-
-                // execute it and send response
-                if (command != null) {
-                    String responseToUser = command.executeAndGetUserResponse(userMsg);
-                    if (responseToUser != null) {
-                        sendMsg(BotUtils.createTextMsg(chatId, responseToUser));
-                    }
+            Message message = update.getMessage();
+            // handle messages from users
+            if (message.isUserMessage()) {
+                userMessageHandler.handleUserMessage(message);
+            } else if (message.isGroupMessage()) {
+                if (message.getSticker() != null) {
+                    System.out.println(message.getSticker().getFileId());
+                    System.out.println(message.getSticker().getSetName());
                 }
+                groupMessageHandler.handleGroupMessage(message);
             }
-
-
-
-            // handle
-
-//            boolean reached = FibCounter.visit();
-//            if (reached) {
-//                sendMsg(createMsg(chatId, "Number of overall messages is: " + FibCounter.visits));
-//            }
-
         } else if (update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
             if (callbackQuery != null) {
@@ -142,16 +116,16 @@ public class AtmayogaBot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private void setInline(SendMessage sendMessage) {
-        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        List<InlineKeyboardButton> buttons1 = new ArrayList<>();
-        buttons1.add(new InlineKeyboardButton().setText("Hamster!!").setCallbackData(I_AM_A_HAMSTER));
-        buttons.add(buttons1);
-
-        InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
-        markupKeyboard.setKeyboard(buttons);
-        sendMessage.setReplyMarkup(markupKeyboard);
-    }
+//    private void setInline(SendMessage sendMessage) {
+//        List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
+//        List<InlineKeyboardButton> buttons1 = new ArrayList<>();
+//        buttons1.add(new InlineKeyboardButton().setText("Hamster!!").setCallbackData(I_AM_A_HAMSTER));
+//        buttons.add(buttons1);
+//
+//        InlineKeyboardMarkup markupKeyboard = new InlineKeyboardMarkup();
+//        markupKeyboard.setKeyboard(buttons);
+//        sendMessage.setReplyMarkup(markupKeyboard);
+//    }
 
     public String getBotUsername() {
         return "Atmayoga Bot";

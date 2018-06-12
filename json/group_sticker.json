@@ -1,0 +1,46 @@
+{
+  "update_id": 355092624,
+  "message": {
+    "chatId": -217575888,
+    "groupMessage": true,
+    "userMessage": false,
+    "channelMessage": false,
+    "command": false,
+    "reply": false,
+    "superGroupMessage": false,
+    "message_id": 735,
+    "from": {
+      "bot": false,
+      "id": 235641035,
+      "first_name": "Alexey",
+      "is_bot": false,
+      "last_name": "Matveev",
+      "language_code": "ru"
+    },
+    "date": 1528578862,
+    "chat": {
+      "superGroupChat": false,
+      "groupChat": true,
+      "userChat": false,
+      "channelChat": false,
+      "id": -217575888,
+      "type": "group",
+      "title": "AtmayogaBotTest",
+      "all_members_are_administrators": true
+    },
+    "sticker": {
+      "file_id": "CAADAgADAQADkp8eEQpfUwLsF-b2Ag",
+      "width": 512,
+      "height": 511,
+      "thumb": {
+        "file_id": "AAQCABMFsDIOAAQimqWjxc3wBQJTAAIC",
+        "width": 128,
+        "height": 128,
+        "file_size": 4308
+      },
+      "file_size": 23666,
+      "emoji": "👋",
+      "set_name": "Catkus"
+    }
+  }
+}

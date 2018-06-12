@@ -1,0 +1,33 @@
+{
+  "update_id": 355092616,
+  "message": {
+    "chatId": 235641035,
+    "command": false,
+    "userMessage": true,
+    "groupMessage": false,
+    "channelMessage": false,
+    "reply": false,
+    "superGroupMessage": false,
+    "message_id": 727,
+    "from": {
+      "bot": false,
+      "id": 235641035,
+      "first_name": "Alexey",
+      "is_bot": false,
+      "last_name": "Matveev",
+      "language_code": "ru"
+    },
+    "date": 1528577217,
+    "chat": {
+      "userChat": true,
+      "superGroupChat": false,
+      "groupChat": false,
+      "channelChat": false,
+      "id": 235641035,
+      "type": "private",
+      "first_name": "Alexey",
+      "last_name": "Matveev"
+    },
+    "text": "А вот и я"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "update_id": 355092619,
+  "message": {
+    "chatId": -217575888,
+    "command": true,
+    "userMessage": false,
+    "groupMessage": true,
+    "channelMessage": false,
+    "reply": false,
+    "superGroupMessage": false,
+    "message_id": 730,
+    "from": {
+      "bot": false,
+      "id": 235641035,
+      "first_name": "Alexey",
+      "is_bot": false,
+      "last_name": "Matveev",
+      "language_code": "ru"
+    },
+    "date": 1528578515,
+    "chat": {
+      "userChat": false,
+      "superGroupChat": false,
+      "groupChat": true,
+      "channelChat": false,
+      "id": -217575888,
+      "type": "group",
+      "title": "AtmayogaBotTest",
+      "all_members_are_administrators": true
+    },
+    "text": "/help@AtmayogaBot",
+    "entities": [{
+      "type": "bot_command",
+      "offset": 0,
+      "length": 17
+    }]
+  }
+}

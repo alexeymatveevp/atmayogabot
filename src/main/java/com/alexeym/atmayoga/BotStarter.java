@@ -1,6 +1,7 @@
-package com.alexeym.atmayoga.bot;
+package com.alexeym.atmayoga;
 
 import com.alexeym.atmayoga.GlobalContext;
+import com.alexeym.atmayoga.bot.AtmayogaBot;
 import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -27,8 +28,7 @@ public class BotStarter {
         // yay!!!
 
         // wait a bit and check one-time messages
-        final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-        executor.schedule(scheduledTasksManager::checkOneTimeBroadcastMessage, 2, TimeUnit.SECONDS);
+        scheduledTasksManager.runTaskWithDelay(scheduledTasksManager::checkOneTimeBroadcastMessage, 2, TimeUnit.SECONDS);
 
         TelegramBotsApi botapi = new TelegramBotsApi();
         try {

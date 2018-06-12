@@ -1,0 +1,33 @@
+{
+  "update_id": 355092618,
+  "message": {
+    "chatId": -217575888,
+    "command": false,
+    "userMessage": false,
+    "groupMessage": true,
+    "channelMessage": false,
+    "reply": false,
+    "superGroupMessage": false,
+    "message_id": 729,
+    "from": {
+      "bot": false,
+      "id": 235641035,
+      "first_name": "Alexey",
+      "is_bot": false,
+      "last_name": "Matveev",
+      "language_code": "ru"
+    },
+    "date": 1528578350,
+    "chat": {
+      "userChat": false,
+      "superGroupChat": false,
+      "groupChat": true,
+      "channelChat": false,
+      "id": -217575888,
+      "type": "group",
+      "title": "AtmayogaBotTest",
+      "all_members_are_administrators": true
+    },
+    "text": "Как дела"
+  }
+}

@@ -3,16 +3,20 @@ package com.alexeym.atmayoga.scheduler;
 import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.bot.BotUtils;
 import com.alexeym.atmayoga.common.UserMetadata;
-import com.alexeym.atmayoga.common.YogaConstants;
+import com.alexeym.atmayoga.YogaConstants;
 import com.alexeym.atmayoga.common.YogaUser;
 import com.alexeym.atmayoga.storage.UserStorage;
 
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Alexey Matveev on 09.06.2018
  */
 public class ScheduledTasksManager {
+
+    private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
     UserStorage userStorage = new UserStorage();
 
@@ -29,6 +33,10 @@ public class ScheduledTasksManager {
         // for example some simple stats:
         // - how many people this week overall (+/- delta with previous week)
         // - who was all 4 times (list of first names)
+    }
+
+    public void runTaskWithDelay(Runnable task, int delay, TimeUnit timeUnit) {
+        executor.schedule(task, delay, timeUnit);
     }
 
     /**

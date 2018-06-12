@@ -22,6 +22,7 @@ public class YogaUser {
     private int numberOfMessagesThisWeek;
     private Map<String, Practice> practiceMap = new TreeMap<>();
     private List<String> messages = new ArrayList<>();
+    private int karma;
 
     public YogaUser() {
     }
@@ -82,5 +83,13 @@ public class YogaUser {
 
     public void addMessage(String message) {
         this.messages.add(message);
+    }
+
+    public int getKarma() {
+        return karma;
+    }
+
+    public void setKarma(int karma) {
+        this.karma = karma;
     }
 }
