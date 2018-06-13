@@ -31,12 +31,12 @@ public class UserStorage {
         YogaUser yogaUser = JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
         if (yogaUser == null) {
             // ok new one
-            YogaUser newUser = new YogaUser();
-            newUser.setId(id);
-            newUser.setFirstName(user.getFirstName());
-            newUser.setLastName(user.getLastName());
-            yogaUser = newUser;
+            yogaUser = new YogaUser();
+            yogaUser.setId(id);
         }
+        yogaUser.setFirstName(user.getFirstName());
+        yogaUser.setLastName(user.getLastName());
+        yogaUser.setUsername(user.getUserName());
         JsonDBInit.jsonDBTemplate.upsert(yogaUser);
 //        String text = userMsg.getText();
 //        if (text != null && !text.startsWith("/")) {

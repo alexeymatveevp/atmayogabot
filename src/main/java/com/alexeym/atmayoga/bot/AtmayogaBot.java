@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.bot;
 
+import com.alexeym.atmayoga.YogaConstants;
 import com.alexeym.atmayoga.bot.command.BotCommand;
 import com.alexeym.atmayoga.bot.command.KotikCommand;
 import com.alexeym.atmayoga.bot.command.LinkCommand;
@@ -132,6 +133,6 @@ public class AtmayogaBot extends TelegramLongPollingBot {
     }
 
     public String getBotToken() {
-        return "557292258:AAHbWOz4HW3Q8UMQq3VxPkf1qv7v3UB518c";
+        return YogaConstants.TELEGRAM_TOKEN;
     }
 }

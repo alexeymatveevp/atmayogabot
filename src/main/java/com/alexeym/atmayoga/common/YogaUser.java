@@ -1,18 +1,16 @@
 package com.alexeym.atmayoga.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author Alexey Matveev on 05.06.2018
  */
-@Document(collection = "yogaUsers", schemaVersion= "1.0")
+@Document(collection = "yogaUsers", schemaVersion = "1.0")
 public class YogaUser {
 
     @Id
@@ -32,6 +30,7 @@ public class YogaUser {
         this.lastName = lastName;
     }
 
+    @JsonIgnore
     public String getFullName() {
         if (firstName == null) {
             return lastName;

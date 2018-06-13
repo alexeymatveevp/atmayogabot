@@ -63,11 +63,27 @@ public class StatisticPrinter {
     }
 
     public String gatherTop3MostActiveChatUsers(Map<Integer, YogaUser> usersMap, List<YogaMessage> messages) {
+        StringBuilder result = new StringBuilder();
         Map<YogaUser, List<YogaMessage>> userToMessages = statisticCollector.userToSortedByDateMessages(usersMap, messages);
-        for (Map.Entry<YogaUser, List<YogaMessage>> entry : userToMessages.entrySet()) {
-//            entry
+        if (userToMessages == null || userToMessages.isEmpty()) {
+            result.append("Да какая ж тут статистика - никто не писал за этот месяц :(");
+            return result.toString();
         }
+        Map<YogaUser, Integer> userToMessagesCount = userToMessages.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue() == null ? 0 : e.getValue().size()))
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())) // sort more messages first
+                .limit(3)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
+        int top = 1;
+        for (Map.Entry<YogaUser, Integer> entry : userToMessagesCount.entrySet()) {
+            YogaUser user = entry.getKey();
+            Integer messagesCount = entry.getValue();
+            result.append(top).append(". ").append(user.getFullName()).append(" - ").append(messagesCount).append(" сообщений\n");
+            top++;
+        }
+        return result.toString();
     }
 
 }

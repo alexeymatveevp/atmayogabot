@@ -28,6 +28,11 @@ public class PresenceSheetParser {
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Наталья", null); // ???
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Наталья Общительная", "Natalia");
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Даша ", "Дарья Романцева");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Алена Лисенкина", "Alena Lisenkina");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Максим", "Максим Топоров");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Рузанна", "Ruzanna Martirosyan");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Настя Нестерова", "Nastya Nesterova");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Дмитрий", "Dmitry Nazarov");
     }
 
     public List<PresenceItem> parsePresenceSheetItems(List<List<Object>> sheet) {
