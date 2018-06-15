@@ -1,8 +1,8 @@
 package com.alexeym.atmayoga.google;
 
-import com.alexeym.atmayoga.common.PresenceItem;
-import com.alexeym.atmayoga.common.TrainingItem;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.PresenceItem;
+import com.alexeym.atmayoga.model.TrainingItem;
+import com.alexeym.atmayoga.model.YogaUser;
 import org.junit.Test;
 
 import java.util.List;

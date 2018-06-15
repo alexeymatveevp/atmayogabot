@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.common;
+package com.alexeym.atmayoga.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.jsondb.annotation.Document;

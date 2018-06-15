@@ -1,8 +1,8 @@
 package com.alexeym.atmayoga.bot.command;
 
 import com.alexeym.atmayoga.BotMessages;
-import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.common.TrainingItem;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.model.TrainingItem;
 import com.alexeym.atmayoga.google.SheetDataService;
 import com.alexeym.atmayoga.google.YogaUserMatcher;
 import org.telegram.telegrambots.api.objects.Message;

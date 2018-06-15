@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.common;
+package com.alexeym.atmayoga.bot.command;
 
 import java.time.LocalDateTime;
 

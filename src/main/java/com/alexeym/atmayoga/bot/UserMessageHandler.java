@@ -53,7 +53,7 @@ public class UserMessageHandler {
             if (command != null) {
                 String responseToUser = command.executeAndGetUserResponse(message);
                 if (responseToUser != null) {
-                    GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, responseToUser));
+                    GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, responseToUser));
                 }
             }
         }

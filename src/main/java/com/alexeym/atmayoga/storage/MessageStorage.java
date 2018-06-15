@@ -1,6 +1,6 @@
 package com.alexeym.atmayoga.storage;
 
-import com.alexeym.atmayoga.common.YogaMessage;
+import com.alexeym.atmayoga.model.YogaMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.stickers.Sticker;
 

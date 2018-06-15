@@ -1,6 +1,6 @@
 package com.alexeym.atmayoga.stat;
 
-import com.alexeym.atmayoga.common.PresenceItem;
+import com.alexeym.atmayoga.model.PresenceItem;
 import com.alexeym.atmayoga.google.SheetDataService;
 import org.junit.Test;
 

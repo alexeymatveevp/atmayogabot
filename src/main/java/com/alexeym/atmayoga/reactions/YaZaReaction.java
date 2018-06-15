@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Alexey Matveev on 6/10/2018.
  */
-public class YaZaReaction implements Reaction {
+public class YaZaReaction extends Reaction {
 
     public static final String YA_ZA = "я за";
 
@@ -65,7 +65,7 @@ public class YaZaReaction implements Reaction {
 
     @Override
     public int baseProbability() {
-        return 50;
+        return 70;
     }
 
 }

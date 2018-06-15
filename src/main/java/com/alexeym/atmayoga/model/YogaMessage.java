@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.common;
+package com.alexeym.atmayoga.model;
 
 import io.jsondb.annotation.Document;
 import io.jsondb.annotation.Id;

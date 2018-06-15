@@ -3,17 +3,20 @@ package com.alexeym.atmayoga.bot;
 import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.YogaConstants;
 import com.alexeym.atmayoga.YogaUtils;
-import com.alexeym.atmayoga.common.Chat;
+import com.alexeym.atmayoga.model.Chat;
+import com.alexeym.atmayoga.model.ReactionMemory;
 import com.alexeym.atmayoga.reactions.Reaction;
 import com.alexeym.atmayoga.reactions.ReactionContext;
 import com.alexeym.atmayoga.reactions.ReactionsHolder;
 import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
 import com.alexeym.atmayoga.storage.ChatStorage;
+import com.alexeym.atmayoga.storage.CommonStorage;
 import com.alexeym.atmayoga.storage.MessageStorage;
 import org.apache.commons.collections.CollectionUtils;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -28,11 +31,16 @@ public class GroupMessageHandler {
     ScheduledTasksManager scheduledTasksManager = new ScheduledTasksManager();
     ChatStorage chatStorage = new ChatStorage();
     MessageStorage messageStorage = new MessageStorage();
+    CommonStorage commonStorage = new CommonStorage();
 
     public void handleGroupMessage(Message message) {
         Long chatId = message.getChatId();
         String text = message.getText();
         User user = message.getFrom();
+
+
+        // TODO for now bot will respond to the last chat which will write to it
+        GlobalContext.currentChatId = chatId;
 
         // remember all chat messages
         messageStorage.addUserMessage(message);
@@ -51,15 +59,15 @@ public class GroupMessageHandler {
                 // welcome
                 String wellcomeText1 = "Всем привет) я новый бот Amtayoga версии 1.0";
                 scheduledTasksManager.runTaskWithDelay(() -> {
-                    GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, wellcomeText1));
+                    GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, wellcomeText1));
                 }, 5, TimeUnit.SECONDS);
                 String wellcomeText2 = "Я буду участвовать в нашей группе и стараться помогать чем смогу! Надеюсь на поддержку и понимание)";
                 scheduledTasksManager.runTaskWithDelay(() -> {
-                    GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, wellcomeText2));
+                    GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, wellcomeText2));
                 }, 15, TimeUnit.SECONDS);
                 String wellcomeText3 = "(спасибо за внимание)";
                 scheduledTasksManager.runTaskWithDelay(() -> {
-                    GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, wellcomeText3));
+                    GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, wellcomeText3));
                 }, 30, TimeUnit.SECONDS);
             } else {
                 // welcome new users
@@ -70,10 +78,10 @@ public class GroupMessageHandler {
         // command protection
         if (text != null && text.startsWith("/") && !someoneTriedCommand) {
             scheduledTasksManager.runTaskWithDelay(() -> {
-                GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, "Команды я принимаю только в личке (чтобы не спамить), хотя потом может будут и групповые команды, если придумаем какие были бы полезны"));
+                GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "Команды я принимаю только в личке (чтобы не спамить), хотя потом может будут и групповые команды, если придумаем какие были бы полезны"));
             }, 5, TimeUnit.SECONDS);
             scheduledTasksManager.runTaskWithDelay(() -> {
-                GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, "(кстати если есть идеи - пишите мне - обязательно прочту)"));
+                GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "(кстати если есть идеи - пишите мне - обязательно прочту)"));
             }, 10, TimeUnit.SECONDS);
             someoneTriedCommand = true;
         }
@@ -90,13 +98,18 @@ public class GroupMessageHandler {
                     if (rollTheDice < reaction.baseProbability()) {
                         // get one random invariant
                         List<String> reactionVariants = reaction.getReactionVariants();
-                        String randomReaction = YogaUtils.getRandomItem(reactionVariants);
+                        String reactionResponse = YogaUtils.getRandomItem(reactionVariants);
                         // run with delay; make delay more natural
                         int delay = YogaUtils.getDelayNaturalDeviation(reaction.delay());
                         scheduledTasksManager.runTaskWithDelay(() -> {
-                            GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, randomReaction));
+                            try {
+                                GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(chatId, reactionResponse));
+                                commonStorage.upsert(new ReactionMemory(new Date(), reaction.getName(), text, reactionResponse));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }, delay, TimeUnit.SECONDS);
-                        System.out.println("Reaction " + reaction.getClass().getSimpleName() + " for message \"" + text + "\" triggered; dice=" + rollTheDice + " delay=" + delay + " reaction=" + randomReaction);
+                        System.out.println("Reaction " + reaction.getClass().getSimpleName() + " for message \"" + text + "\" triggered; dice=" + rollTheDice + " delay=" + delay + " reaction=" + reactionResponse);
                     } else {
                         System.out.println("Reaction " + reaction.getClass().getSimpleName() + " for message \"" + text + "\" not triggered because of dice: " + rollTheDice);
                     }

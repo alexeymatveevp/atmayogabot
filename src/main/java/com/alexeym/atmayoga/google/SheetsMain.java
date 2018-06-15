@@ -1,7 +1,7 @@
 package com.alexeym.atmayoga.google;
 
-import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.common.TrainingItem;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.model.TrainingItem;
 
 /**
  * Created by Alexey Matveev on 6/5/2018.

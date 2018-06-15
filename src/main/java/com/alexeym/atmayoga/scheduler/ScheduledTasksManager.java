@@ -2,11 +2,17 @@ package com.alexeym.atmayoga.scheduler;
 
 import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.bot.BotUtils;
-import com.alexeym.atmayoga.common.UserMetadata;
+import com.alexeym.atmayoga.model.ThoughtMemory;
+import com.alexeym.atmayoga.model.UserMetadata;
 import com.alexeym.atmayoga.YogaConstants;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.storage.CommonStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
+import com.alexeym.atmayoga.thoughts.Thought;
+import com.alexeym.atmayoga.thoughts.ThoughtsProducer;
+import com.alexeym.atmayoga.thoughts.ThoughtsSender;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +24,9 @@ public class ScheduledTasksManager {
 
     private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
 
-    UserStorage userStorage = new UserStorage();
+    CommonStorage storage = new CommonStorage();
+    ThoughtsProducer thoughtsProducer = new ThoughtsProducer();
+    ThoughtsSender thoughtsSender = new ThoughtsSender();
 
     public void start() {
         // periodically will check current date and time
@@ -33,6 +41,21 @@ public class ScheduledTasksManager {
         // for example some simple stats:
         // - how many people this week overall (+/- delta with previous week)
         // - who was all 4 times (list of first names)
+    }
+
+    public void setupSchedulerAndTasks() {
+        // test thoughts
+        Cron4j.scheduler.schedule(Cron4j.EVERY_MINUTE, () -> {
+            Thought thought = thoughtsProducer.produceRandomThought();
+            System.out.println("picked thought: " + thought.getName());
+            try {
+                thoughtsSender.sendThought(thought);
+                storage.upsert(new ThoughtMemory(new Date(), thought.getName(), thought.getType().name()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        Cron4j.scheduler.start();
     }
 
     public void runTaskWithDelay(Runnable task, int delay, TimeUnit timeUnit) {
@@ -59,13 +82,13 @@ public class ScheduledTasksManager {
 
         if (message != null) {
             System.out.println("There are new things to tell! Trying to send...");
-            List<YogaUser> knownUsers = userStorage.getKnownUsers();
+            List<YogaUser> knownUsers = storage.findAll(YogaUser.class);
             boolean errorSend = false;
             int sendCount = 0;
             int failedCount = 0;
             for (YogaUser knownUser : knownUsers) {
                 Integer userId = knownUser.getId();
-                UserMetadata userMetadata = userStorage.findUserMetadata(userId);
+                UserMetadata userMetadata = storage.findById(userId, UserMetadata.class);
                 if (userMetadata == null) {
                     // create
                     userMetadata = new UserMetadata();
@@ -83,12 +106,12 @@ public class ScheduledTasksManager {
                         e.printStackTrace();
                         if (!errorSend) {
                             errorSend = true;
-                            GlobalContext.BOT.sendMsg(BotUtils.createTextMsg(YogaConstants.ADMIN_USER_ID.longValue(), "Error broadcasting: " + e.getMessage()));
+                            GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(YogaConstants.ADMIN_USER_ID.longValue(), "Error broadcasting: " + e.getMessage()));
                         }
                     }
                     userMetadata.getReceivedUpdateMessages().add(thisUpdateId);
                 }
-                userStorage.updateUserMetadata(userMetadata);
+                storage.upsert(userMetadata);
             }
             System.out.println("Send: " + sendCount + " / " + knownUsers.size());
             System.out.println("Failed: " + failedCount + " / " + knownUsers.size());

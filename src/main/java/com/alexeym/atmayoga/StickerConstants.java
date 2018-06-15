@@ -28,6 +28,7 @@ public class StickerConstants {
 
     public static final String PUTINSTICKERS_COOL_BRO = "AAQCABOhsVkqAAS2n_oWk6XJZPEEAAIC";
     public static final String PUTINSTICKERS_YOGA_NAMASTE = "AAQCABPGd4QqAATjL2DytQoUKCIhAAIC";
+    public static final String PUTINSTICKERS_PRESIDENTASANA = "CAADAgADGwQAAjq5FQIOTISDLazmqwI";
 
     public static final String YAKUBOVICH_COOL_VO = "CAADAgADbgIAAgk7OxNrae1IawSm1gI";
     public static final String YAKUBOVICH_COOL_LIKE = "CAADAgADfgIAAgk7OxOJKDfAvmzK2wI";
@@ -35,5 +36,30 @@ public class StickerConstants {
 
     public static final String MEME_STICKERS_CHUCK_NORRIS_COOL = "CAADBQADbgMAAukKyAN8NA8_2uwEbQI";
     public static final String MEME_STICKERS_JIM_CARRY_COOL = "CAADBQADiQMAAukKyAPZH7wCI2BwFwI";
+
+    public static final String GUESS_ARDHA_MADSYENDRASANA = "CAADAgADBAADy5gLDuXaV3sRctMOAg";
+    public static final String GUESS_BALASANA = "CAADAgADBQADy5gLDlskeR9K335fAg";
+    public static final String GUESS_BHADRASANA = "CAADAgADBgADy5gLDiU2vKXWAAFUXQI";
+    public static final String GUESS_BDUJANGASANA = "CAADAgADBwADy5gLDtLn4vc0Dme3Ag";
+    public static final String GUESS_CHAKRASANA = "CAADAgADCAADy5gLDglxiWz_LiQ1Ag";
+    public static final String GUESS_DHANURASANA = "CAADAgADCgADy5gLDpYFW_hQt62eAg";
+    public static final String GUESS_EKA_PADA_RAJAKAPOTASANA = "CAADAgADCwADy5gLDvGDJV9i_yipAg";
+    public static final String GUESS_HALASANA = "CAADAgADDAADy5gLDlqRoA-ffEkKAg";
+    public static final String GUESS_MATSYASANA = "CAADAgADDQADy5gLDq5lnN6BA5zOAg";
+    public static final String GUESS_MAYURASANA = "CAADAgADDgADy5gLDqqWwTSiJ7ZxAg";
+    public static final String GUESS_PASHCHIMOTTANASANA = "CAADAgADEAADy5gLDkSgPx16UVohAg";
+    public static final String GUESS_PAVANAMUKTASANA = "CAADAgADEQADy5gLDsreaSXRE0WvAg";
+    public static final String GUESS_SARVANGASANA = "CAADAgADEgADy5gLDqatnb6BiVd-Ag";
+    public static final String GUESS_SHAVASANA = "CAADAgADEwADy5gLDiahUaLdYlJAAg";
+    public static final String GUESS_TRIKANASANA = "CAADAgADFAADy5gLDk3bYIhaRl00Ag";
+    public static final String GUESS_USHTRASANA = "CAADAgADFQADy5gLDoD2Xa6D4aiCAg";
+    public static final String GUESS_UTKATASANA = "CAADAgADFgADy5gLDsgDHCju6mfkAg";
+    public static final String GUESS_UTTANASANA = "CAADAgADFwADy5gLDpzKin0zdmgEAg";
+    public static final String GUESS_VAJRASANA = "CAADAgADGAADy5gLDmBDyhxlVl-TAg";
+
+    public static final String GREAT_MINDS_GHANDI = "CAADAgADGwADyIsGAAE68wt0DU90mgI";
+
+    public static final String PUHLYA_CUTE_ON_BACK = "CAADAgADCQADFgqsEA1q1XcNzEx6Ag";
+
 
 }

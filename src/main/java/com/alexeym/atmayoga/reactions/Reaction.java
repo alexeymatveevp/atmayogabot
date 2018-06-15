@@ -5,15 +5,20 @@ import java.util.List;
 /**
  * Created by Alexey Matveev on 6/10/2018.
  */
-public interface Reaction {
-    boolean matches(ReactionContext context);
-    List<String> getReactionVariants();
-    void processManually();
-    ReactionType getType();
-    int delay();
-    int baseProbability();
+public abstract class Reaction {
 
-    enum ReactionType {
+    public abstract boolean matches(ReactionContext context);
+    public abstract List<String> getReactionVariants();
+    public abstract void processManually();
+    public abstract ReactionType getType();
+    public abstract int delay();
+    public abstract int baseProbability();
+
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
+
+    public enum ReactionType {
         MANUAL, AUTO
     }
 }

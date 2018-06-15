@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.com.alexeym.atmayoga.bot;
+package com.alexeym.atmayoga;
 
 import com.alexeym.atmayoga.bot.command.StartCommand;
 import org.junit.Test;

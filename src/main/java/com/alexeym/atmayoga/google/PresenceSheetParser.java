@@ -1,7 +1,7 @@
 package com.alexeym.atmayoga.google;
 
-import com.alexeym.atmayoga.common.PresenceItem;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.PresenceItem;
+import com.alexeym.atmayoga.model.YogaUser;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -33,6 +33,7 @@ public class PresenceSheetParser {
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Рузанна", "Ruzanna Martirosyan");
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Настя Нестерова", "Nastya Nesterova");
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Дмитрий", "Dmitry Nazarov");
+        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Надежда", "Nadezhda");
     }
 
     public List<PresenceItem> parsePresenceSheetItems(List<List<Object>> sheet) {

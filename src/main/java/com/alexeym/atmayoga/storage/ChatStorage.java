@@ -1,6 +1,6 @@
 package com.alexeym.atmayoga.storage;
 
-import com.alexeym.atmayoga.common.Chat;
+import com.alexeym.atmayoga.model.Chat;
 
 /**
  * Created by Alexey Matveev on 6/10/2018.

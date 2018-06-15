@@ -1,6 +1,7 @@
 package com.alexeym.atmayoga.google;
 
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.storage.CommonStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.objects.User;
 
@@ -13,7 +14,7 @@ public class YogaUserMatcher {
 
     public static final String NAME_SEPARATOR = " ";
 
-    UserStorage userStorage = new UserStorage();
+    CommonStorage storage = new CommonStorage();
 
     public YogaUser tryGetExistingYogaUser(User telegramUser) {
         return tryGetExistingYogaUser(getAdoptedUserName(telegramUser));
@@ -35,7 +36,7 @@ public class YogaUserMatcher {
         if (nameParts.length == 2) {
             String fname = nameParts[0];
             String lname = nameParts[1];
-            List<YogaUser> knownUsers = userStorage.getKnownUsers();
+            List<YogaUser> knownUsers = storage.findAll(YogaUser.class);
             for (YogaUser knownUser : knownUsers) {
                 if (knownUser.getFirstName().equalsIgnoreCase(fname) && knownUser.getLastName().equalsIgnoreCase(lname)) {
                     return knownUser;

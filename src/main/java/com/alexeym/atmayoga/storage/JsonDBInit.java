@@ -1,9 +1,11 @@
 package com.alexeym.atmayoga.storage;
 
-import com.alexeym.atmayoga.common.Chat;
-import com.alexeym.atmayoga.common.UserMetadata;
-import com.alexeym.atmayoga.common.YogaMessage;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.Chat;
+import com.alexeym.atmayoga.model.ReactionMemory;
+import com.alexeym.atmayoga.model.ThoughtMemory;
+import com.alexeym.atmayoga.model.UserMetadata;
+import com.alexeym.atmayoga.model.YogaMessage;
+import com.alexeym.atmayoga.model.YogaUser;
 import io.jsondb.JsonDBTemplate;
 
 /**
@@ -18,7 +20,7 @@ public class JsonDBInit {
         String dbFilesLocation = "jsondb";
 
         //Java package name where POJO's are present
-        String baseScanPackage = "com.alexeym.atmayoga.common";
+        String baseScanPackage = "com.alexeym.atmayoga.model";
 
         jsonDBTemplate = new JsonDBTemplate(dbFilesLocation, baseScanPackage);
 
@@ -34,6 +36,12 @@ public class JsonDBInit {
         }
         if (!jsonDBTemplate.collectionExists(YogaMessage.class)) {
             jsonDBTemplate.createCollection(YogaMessage.class);
+        }
+        if (!jsonDBTemplate.collectionExists(ReactionMemory.class)) {
+            jsonDBTemplate.createCollection(ReactionMemory.class);
+        }
+        if (!jsonDBTemplate.collectionExists(ThoughtMemory.class)) {
+            jsonDBTemplate.createCollection(ThoughtMemory.class);
         }
     }
 }

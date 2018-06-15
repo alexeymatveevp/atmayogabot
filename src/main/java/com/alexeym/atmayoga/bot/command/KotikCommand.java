@@ -2,9 +2,7 @@ package com.alexeym.atmayoga.bot.command;
 
 import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.StickerConstants;
-import com.alexeym.atmayoga.bot.AtmayogaBot;
 import com.alexeym.atmayoga.bot.BotUtils;
-import com.alexeym.atmayoga.common.TimeTypeResolver;
 import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -19,7 +17,7 @@ public class KotikCommand implements BotCommand {
         // handle kotik command
         TimeTypeResolver.TimeType timeType = TimeTypeResolver.getCurrentTimeType();
         // sticker easter egg
-        int sticker = (int) Math.round(Math.random() * 100);
+        int sticker = (int) (Math.random() * 100);
         String stickerId = null;
         if (sticker == 1) stickerId = StickerConstants.CATCUS_CMOK;
         if (sticker == 2) stickerId = StickerConstants.CATCUS_GO_AWAY;
@@ -39,8 +37,8 @@ public class KotikCommand implements BotCommand {
         if (stickerId != null) {
             SendSticker stickerMsg = BotUtils.createStickerMsg(userMsg.getChatId(), stickerId);
             try {
-                GlobalContext.BOT.sendSticker(stickerMsg);
-            } catch (TelegramApiException e) {
+                GlobalContext.BOT.sendStkr(stickerMsg);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
@@ -50,7 +48,7 @@ public class KotikCommand implements BotCommand {
         if (timeType == TimeTypeResolver.TimeType.NIGHT) {
             response = "спать иди, никаких котиков";
         } else {
-            long t = Math.round(Math.random() * 11);
+            long t = (int) (Math.random() * 11);
             if (t == 0) response = "^_^";
             else if (t == 1) response = "O_O";
             else if (t == 2) response = "фффф!";

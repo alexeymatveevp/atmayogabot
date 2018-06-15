@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.CallbackQuery;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
@@ -74,14 +75,26 @@ public class AtmayogaBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendMsg(SendMessage msg) {
-        try {
+    public void sendMsgErrorless(SendMessage msg) {
 //            setButtons(msg);
-            resetKeyboard(msg);
-            sendMessage(msg);
-        } catch (TelegramApiException e){
+//        resetKeyboard(msg);
+        try {
+            sendMsg(msg);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendMsg(SendMessage msg) throws Exception {
+//            setButtons(msg);
+//        resetKeyboard(msg);
+        System.out.println("sending message: " + msg.toString());
+        sendMessage(msg);
+    }
+
+    public void sendStkr(SendSticker msg) throws Exception {
+        System.out.println("sending sticker: " + msg.toString());
+        sendSticker(msg);
     }
 
     public void resetKeyboard(SendMessage msg) {

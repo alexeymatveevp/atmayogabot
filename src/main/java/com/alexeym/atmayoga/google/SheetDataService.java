@@ -1,13 +1,12 @@
 package com.alexeym.atmayoga.google;
 
 import com.alexeym.atmayoga.YogaConstants;
-import com.alexeym.atmayoga.common.PresenceItem;
-import com.alexeym.atmayoga.common.YogaUser;
-import com.alexeym.atmayoga.common.TrainingItem;
+import com.alexeym.atmayoga.model.PresenceItem;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.model.TrainingItem;
 import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Date;
 import java.util.List;

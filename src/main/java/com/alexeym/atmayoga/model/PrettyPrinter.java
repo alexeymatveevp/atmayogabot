@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.common;
+package com.alexeym.atmayoga.model;
 
 import java.util.Map;
 

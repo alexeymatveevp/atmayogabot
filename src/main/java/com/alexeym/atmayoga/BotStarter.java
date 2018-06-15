@@ -1,13 +1,13 @@
 package com.alexeym.atmayoga;
 
-import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.bot.AtmayogaBot;
+import com.alexeym.atmayoga.scheduler.Cron4j;
 import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
+import it.sauronsoftware.cron4j.SchedulingPattern;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,10 +25,14 @@ public class BotStarter {
 
         // horray! I can set everything to global context
         GlobalContext.BOT = bot;
+        GlobalContext.SCHEDULING_MANAGER = scheduledTasksManager;
         // yay!!!
 
         // wait a bit and check one-time messages
         scheduledTasksManager.runTaskWithDelay(scheduledTasksManager::checkOneTimeBroadcastMessage, 2, TimeUnit.SECONDS);
+
+        // setup cron4j scheduler
+        scheduledTasksManager.setupSchedulerAndTasks();
 
         TelegramBotsApi botapi = new TelegramBotsApi();
         try {

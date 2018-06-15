@@ -1,8 +1,8 @@
 package com.alexeym.atmayoga.stat;
 
-import com.alexeym.atmayoga.common.PresenceItem;
-import com.alexeym.atmayoga.common.YogaMessage;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.PresenceItem;
+import com.alexeym.atmayoga.model.YogaMessage;
+import com.alexeym.atmayoga.model.YogaUser;
 
 import java.util.*;
 import java.util.stream.Collectors;

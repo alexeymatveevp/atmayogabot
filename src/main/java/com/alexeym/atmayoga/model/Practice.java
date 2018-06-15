@@ -1,4 +1,4 @@
-package com.alexeym.atmayoga.common;
+package com.alexeym.atmayoga.model;
 
 /**
  * @author Alexey Matveev on 05.06.2018

@@ -9,7 +9,7 @@ public class YogaUtils {
 
     public static <T> T getRandomItem(List<T> list) {
         int size = list.size();
-        int index = (int) Math.round(Math.random() * size);
+        int index = (int) (Math.random() * size);
         return list.get(index);
     }
 

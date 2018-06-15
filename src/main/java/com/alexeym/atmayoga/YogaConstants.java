@@ -13,6 +13,9 @@ public class YogaConstants {
     public static final Integer KRISTINA_USER_ID = 280120623;
     public static final Integer EVGENIY_USER_ID = 263622757;
 
+    public static final Integer TRAINING_CHAT_ID = -217575888;
+    public static final Integer MAIN_CHAT_ID = 0; // TODO fill
+
     public final static String TRAINING_SPREADSHEET_ID = "1b7kQqBXbqohJ7hSI546eQu0MMOL1fg3vW5KldtzcvSA";
     public final static String PRESENCE_SPREADSHEET_ID = "1hRK727JgA-pIT94f395MPmKCVz3DgKyq-MFynmRTOB4";
 

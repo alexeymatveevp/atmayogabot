@@ -1,21 +1,22 @@
 package com.alexeym.atmayoga.bot.command;
 
-import com.alexeym.atmayoga.bot.AtmayogaBot;
-import com.alexeym.atmayoga.common.YogaUser;
+import com.alexeym.atmayoga.model.YogaMessage;
+import com.alexeym.atmayoga.model.YogaUser;
+import com.alexeym.atmayoga.storage.CommonStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.User;
+
+import java.util.List;
 
 /**
  * @author Alexey Matveev on 06.06.2018
  */
 public class MyActivityCommand implements BotCommand {
 
-    UserStorage userStorage = new UserStorage();
+    CommonStorage storage = new CommonStorage();
 
     @Override
     public String executeAndGetUserResponse(Message userMsg) {
-        YogaUser yogaUser = userStorage.getUser(userMsg.getFrom().getId());
         // TODO collect messages from store
 //        int messagesNum = yogaUser.getNumberOfMessagesThisWeek();
         int messagesNum = 0;

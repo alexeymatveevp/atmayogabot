@@ -1,0 +1,26 @@
+<thoughts>
+    <thought>
+        <any-of>
+            <sequence>
+                <text></text>
+                <text></text>
+                <text></text>
+            </sequence>
+            <text>люблю йогу, особенно по-утрам)</text>
+            <text>практикую йогу, значит - существую!</text>
+            <sequence>
+                <text>кто любит йогу?</text>
+                <delay>3</delay>
+                <sticker>Я!</sticker>
+            </sequence>
+        </any-of>
+        <configuration>
+            <appear-period>45</appear-period>
+            <probability>60</probability>
+        </configuration>
+        <type>RANDOM_THOUGHT</type>
+    </thought>
+    <thought>
+
+    </thought>
+</thoughts>
