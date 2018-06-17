@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class SheetParsingUtils {
 
     static Pattern DATE_PATTERN = Pattern.compile("[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}");
-    static SimpleDateFormat SHEET_DATE_FORMAT = new SimpleDateFormat("MM.dd.yyyy");
+    static SimpleDateFormat SHEET_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public static String generateUnknownActivity() {
         return "неизвестная активность";

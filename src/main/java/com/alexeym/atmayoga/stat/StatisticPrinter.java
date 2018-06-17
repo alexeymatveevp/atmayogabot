@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.stat;
 
+import com.alexeym.atmayoga.common.DurationUnit;
 import com.alexeym.atmayoga.model.PresenceItem;
 import com.alexeym.atmayoga.model.YogaMessage;
 import com.alexeym.atmayoga.model.YogaUser;
@@ -14,8 +15,14 @@ public class StatisticPrinter {
 
     StatisticCollector statisticCollector = new StatisticCollector();
 
-    public String gatherTop3Presence(List<PresenceItem> presenceItems) {
-        StringBuilder result = new StringBuilder("Топ-3 по посещаемости в этом месяце:\n");
+    public StatisticResult gatherTop3Presence(List<PresenceItem> presenceItems, DurationUnit durationUnit) {
+        StatisticResult result = new StatisticResult();
+        StringBuilder text = new StringBuilder();
+        if (durationUnit == DurationUnit.WEEK) {
+            text.append("Топ-3 за эту неделю (кол-во посещений):\n");
+        } else if (durationUnit == DurationUnit.MONTH) {
+            text.append("Топ-3 в этом месяце (кол-во посещений):\n");
+        }
         // handle top-3
         // should be already sorted
         LinkedHashMap<Integer, List<YogaUser>> sortedTop3 = statisticCollector.getPresenceToUsers(presenceItems)
@@ -27,14 +34,22 @@ public class StatisticPrinter {
             Integer visits = entry.getKey();
             List<YogaUser> users = entry.getValue();
             String usersString = PrintUtils.printListWithDelimiter(users, YogaUser::getFullName);
-            result.append(top).append(". ").append(usersString).append(" - ").append(visits).append(" занятий\n");
+            text.append(top).append(". ").append(usersString).append(" - ").append(visits).append("\n");
             top++;
+            if (users.size() > 3) result.setInterestRate(-1); // too much output
         }
-        return result.toString();
+
+        // interest rate modifiers
+        if (durationUnit == DurationUnit.MONTH) result.setInterestRate(1); // top-3 is preferable for MONTH
+        if (sortedTop3.size() < 3) result.setInterestRate(-1);
+
+        result.setText(text.toString());
+        return result;
     }
 
-    public String gatherMostPresentGuys(List<PresenceItem> presenceItems) {
-        StringBuilder result = new StringBuilder();
+    public StatisticResult gatherMostPresentGuys(List<PresenceItem> presenceItems, DurationUnit durationUnit) {
+        StatisticResult result = new StatisticResult();
+        StringBuilder text = new StringBuilder();
         // get only 1 result
         Optional<Map.Entry<Integer, List<YogaUser>>> first = statisticCollector.getPresenceToUsers(presenceItems)
                 .entrySet().stream()
@@ -45,21 +60,81 @@ public class StatisticPrinter {
             Integer presence = entry.getKey();
             if (users.size() == 1) {
                 YogaUser yogaUser = users.get(0);
-                result.append("В этом месяце самым активным пока является ").append(yogaUser.getFullName());
-                if (presence > 10) {
-                    result.append(" - аж ").append(presence).append(" занятий!");
-                } else {
-                    result.append(" - ").append(presence).append(" занятий");
+                if (durationUnit == DurationUnit.WEEK) {
+                    if (presence == 4) {
+                        text.append(yogaUser.getFullName()).append(" на этой неделе единственный посетил все 4 занятия - так держать!");
+                        result.setInterestRate(1); // 100%
+                    } else {
+                        text.append("На этой неделе больше всех посещал йогу ").append(yogaUser.getFullName());
+                        text.append(" - кол-во занятий - ").append(presence);
+                    }
+                } else if (durationUnit == DurationUnit.MONTH) {
+                    if (presence >= 16) {
+                        text.append("Ого, ничего себе! ").append(yogaUser.getFullName());
+                        text.append(" в этом месяце посетил все ").append(presence).append(" занятий!");
+                        text.append(" Поздравляем!! Так держать) Вот это сила духа.");
+                        result.setInterestRate(2); // wow! 100% MONTH
+                    } else if (presence > 10) {
+                        text.append("Не сидел без дела в этом месяце определенно ").append(yogaUser.getFullName());
+                        text.append(" - аж ").append(presence).append(" посещений!");
+                        result.setInterestRate(1); // a lot
+                    } else {
+                        text.append("Больше всех в этом месяце ходил ").append(yogaUser.getFullName());
+                        text.append(" - ").append(presence).append(" занятий");
+                    }
                 }
             } else {
-                result.append("Первое место по кол-ву посещений делят несколько йогов, вот они: ");
-                String usersString = PrintUtils.printListWithDelimiter(users, YogaUser::getFullName);
-                result.append(usersString).append(" с кол-вом посещений - ").append(presence);
+                if (durationUnit == DurationUnit.WEEK) {
+                    text.append("На этой неделе несколько йогов были самыми активными посетителями: ");
+                    String usersString = PrintUtils.printListWithDelimiter(users, YogaUser::getFullName);
+                    text.append(usersString).append(" (с кол-вом посещений: ").append(presence).append(")");
+                    if (presence == 4) {
+                        result.setInterestRate(2); // 100%
+                        text.append("\n(ударная получилась неделя!)");
+                    }
+                } else if (durationUnit == DurationUnit.MONTH) {
+                    text.append("В этом месяце несколько йогов шли бок о бок! Вот они: ");
+                    String usersString = PrintUtils.printListWithDelimiter(users, YogaUser::getFullName);
+                    text.append(usersString).append("\nпосещений: ").append(presence).append("\nМолодцы!");
+                    if (presence > 10) {
+                        result.setInterestRate(1);
+                    }
+                }
             }
         } else {
-            result.append("Хм.. кажется в этом месяце еще никто не посещал занятия (могу врать)");
+            text.append("Хм.. кажется в этом месяце еще никто не посещал занятия (могу врать)");
+            result.setInterestRate(0);
         }
-        return result.toString();
+        result.setText(text.toString());
+        return result;
+    }
+
+    public StatisticResult gatherOverallVisits(List<PresenceItem> currentItems, List<PresenceItem> prevItems, DurationUnit durationUnit) {
+        StatisticResult result = new StatisticResult();
+        StringBuilder text = new StringBuilder();
+        int prevVisits = prevItems.size();
+        int curVisits = currentItems.size();
+        if (durationUnit == DurationUnit.WEEK) {
+            text.append("Суммарное кол-во посещений за эту неделю: ").append(curVisits);
+            if (prevVisits != 0) {
+                if (curVisits > prevVisits) {
+                    text.append("\n(на ").append(curVisits - prevVisits).append(" больше чем на предыдущей)");
+                } else if (curVisits < prevVisits) {
+                    text.append("\n(на ").append(prevVisits - curVisits).append(" меньше чем на предыдущей)");
+                }
+            }
+        } else if (durationUnit == DurationUnit.MONTH) {
+            text.append("Эгей йожики, в этом месяце мы все вместе сходили на йогу ").append(curVisits).append(" раз");
+            if (prevVisits != 0) {
+                if (curVisits > prevVisits) {
+                    text.append("\n(на ").append(curVisits - prevVisits).append(" больше чем в прошлом месяце!)");
+                } else if (curVisits < prevVisits) {
+                    text.append("\n(на ").append(prevVisits - curVisits).append(" меньше чем в прошлом)");
+                }
+            }
+        }
+        result.setText(text.toString());
+        return result;
     }
 
     public String gatherTop3MostActiveChatUsers(Map<Integer, YogaUser> usersMap, List<YogaMessage> messages) {

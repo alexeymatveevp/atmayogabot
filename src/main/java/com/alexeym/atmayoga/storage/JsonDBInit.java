@@ -24,7 +24,7 @@ public class JsonDBInit {
 
         jsonDBTemplate = new JsonDBTemplate(dbFilesLocation, baseScanPackage);
 
-        // init
+        // nit
         if (!jsonDBTemplate.collectionExists(YogaUser.class)) {
             jsonDBTemplate.createCollection(YogaUser.class);
         }

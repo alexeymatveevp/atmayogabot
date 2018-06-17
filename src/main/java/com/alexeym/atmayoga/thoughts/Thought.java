@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.thoughts;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,11 +20,19 @@ import java.util.List;
  */
 public abstract class Thought {
 
-    public abstract List<ThoughtVariant> getVariants();
+    public abstract Long getId();
+
+    public abstract List<ThoughtStep> getSteps();
 
     public abstract int getProbability();
 
     public abstract int getAppearPeriodDays();
+
+    // 0 normal random
+    // 1 first priority (random of other prio)
+    public abstract int getPriority();
+
+    public abstract Date getDue();
 
     public String getName() {
         return this.getClass().getSimpleName();

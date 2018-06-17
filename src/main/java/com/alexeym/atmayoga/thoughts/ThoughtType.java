@@ -5,10 +5,7 @@ package com.alexeym.atmayoga.thoughts;
  */
 public enum  ThoughtType {
     STAT,
-    SHORT_ROFL, // ha-ha
-    RANDOM_THOUGHT, // like "did you know?"
+    ROFL, // ha-ha
     ASANA_GUESS, // my not-implemented asana guess game
-    INFORMATIVE, // any public link, video or picture, interesting info, educational
-
-
+    NEWS, // any public link, video or picture, interesting info, educational
 }

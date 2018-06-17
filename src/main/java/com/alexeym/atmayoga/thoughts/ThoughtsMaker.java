@@ -20,7 +20,7 @@ public class ThoughtsMaker {
     }
 
     public static ThoughtStep makeTextStep(String text) {
-        return new SendTextThougthStep(text);
+        return new TextThougthStep(text);
     }
 
     public static ThoughtStep makeDelayStep(int seconds) {
@@ -28,7 +28,7 @@ public class ThoughtsMaker {
     }
 
     public static ThoughtStep makeStickerStep(String stickerId) {
-        return new SendStickerThoughtStep(stickerId);
+        return new StickerThoughtStep(stickerId);
     }
 
 }

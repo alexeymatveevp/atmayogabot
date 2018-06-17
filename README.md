@@ -30,3 +30,10 @@ kotik - пасхалка
 
 - частичное совпадение подстроки при поиске стикера с асаной (реакция)
 - любое обращение к @atmayogabot в сообщении может стриггировать разнообразную реакцию или вброс (возможно сделать реакцию которая триггирует вброс)
+- business logs: thoughts today triggered, not triggered because of dice, errors last week, ...
+
+## links
+
+Presence: https://docs.google.com/spreadsheets/d/1hRK727JgA-pIT94f395MPmKCVz3DgKyq-MFynmRTOB4
+
+Training: https://docs.google.com/spreadsheets/d/1b7kQqBXbqohJ7hSI546eQu0MMOL1fg3vW5KldtzcvSA

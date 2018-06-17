@@ -1,6 +1,7 @@
 package com.alexeym.atmayoga.google;
 
 import com.alexeym.atmayoga.YogaConstants;
+import com.alexeym.atmayoga.YogaUtils;
 import com.alexeym.atmayoga.model.PresenceItem;
 import com.alexeym.atmayoga.model.YogaUser;
 import com.alexeym.atmayoga.model.TrainingItem;
@@ -48,8 +49,8 @@ public class SheetDataService {
         return presenceSheetParser.parsePresenceSheetItems(sheet);
     }
 
-    public List<PresenceItem> getPresenceItems() throws Exception {
-        return getPresenceItems(getCurrentMonthAsString());
+    public List<PresenceItem> getPresenceItemsForCurrentMonth() throws Exception {
+        return getPresenceItems(YogaUtils.getCurrentMonthAsRusString());
     }
 
     public List<List<Object>> querySheet(String sheetId, String sheetName) throws Exception {
@@ -59,24 +60,6 @@ public class SheetDataService {
         return response.getValues();
     }
 
-    private String getCurrentMonthAsString() {
-        LocalDate now = LocalDate.now();
-        Month month = now.getMonth();
-        switch (month) {
-            case JANUARY: return "Январь";
-            case FEBRUARY: return "Февраль";
-            case MARCH: return "Март";
-            case APRIL: return "Апрель";
-            case MAY: return "Май";
-            case JUNE: return "Июнь";
-            case JULY: return "Июль";
-            case AUGUST: return "Август";
-            case SEPTEMBER: return "Сентябрь";
-            case OCTOBER: return "Октябрь";
-            case NOVEMBER: return "Ноябрь";
-            case DECEMBER: return "Декабрь";
-        }
-        return null;
-    }
+
 
 }

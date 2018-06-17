@@ -21,7 +21,7 @@ public class SheetDataServiceTest {
     @Test
     public void testPresenceSheet() throws Exception {
         SheetDataService service = new SheetDataService();
-        List<PresenceItem> presenceItems = service.getPresenceItems();
+        List<PresenceItem> presenceItems = service.getPresenceItemsForCurrentMonth();
         assertNotNull(presenceItems);
     }
 }

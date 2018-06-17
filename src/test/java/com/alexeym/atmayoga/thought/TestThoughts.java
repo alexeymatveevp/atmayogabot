@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga.thought;
 
+import com.alexeym.atmayoga.ScheduledThoughtsProducer;
 import org.junit.Test;
 
 /**
@@ -8,7 +9,8 @@ import org.junit.Test;
 public class TestThoughts {
 
     @Test
-    public void testThoughts() throws Exception {
-
+    public void testWeeklyThoughts() throws Exception {
+        ScheduledThoughtsProducer producer = new ScheduledThoughtsProducer();
+        producer.periodicalWeeklyThoughts();
     }
 }

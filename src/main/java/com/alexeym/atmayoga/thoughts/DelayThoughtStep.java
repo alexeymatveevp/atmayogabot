@@ -14,6 +14,13 @@ public class DelayThoughtStep extends ThoughtStep {
         this.secondsDelay = secondsDelay;
     }
 
+    @Override
+    public String toString() {
+        return "DelayThoughtStep{" +
+                "secondsDelay=" + secondsDelay +
+                '}';
+    }
+
     public int getSecondsDelay() {
         return secondsDelay;
     }

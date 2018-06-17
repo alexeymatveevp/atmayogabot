@@ -1,9 +1,6 @@
 package com.alexeym.atmayoga;
 
 import com.alexeym.atmayoga.bot.AtmayogaBot;
-import com.alexeym.atmayoga.scheduler.Cron4j;
-import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
-import it.sauronsoftware.cron4j.SchedulingPattern;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
@@ -28,12 +25,10 @@ public class BotStarter {
         GlobalContext.SCHEDULING_MANAGER = scheduledTasksManager;
         // yay!!!
 
-        // wait a bit and check one-time messages
-        scheduledTasksManager.runTaskWithDelay(scheduledTasksManager::checkOneTimeBroadcastMessage, 2, TimeUnit.SECONDS);
-
         // setup cron4j scheduler
-        scheduledTasksManager.setupSchedulerAndTasks();
+        scheduledTasksManager.initAlgorithm();
 
+        // run the bot
         TelegramBotsApi botapi = new TelegramBotsApi();
         try {
             botapi.registerBot(bot);

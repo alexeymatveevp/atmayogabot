@@ -8,7 +8,7 @@ import com.alexeym.atmayoga.model.ReactionMemory;
 import com.alexeym.atmayoga.reactions.Reaction;
 import com.alexeym.atmayoga.reactions.ReactionContext;
 import com.alexeym.atmayoga.reactions.ReactionsHolder;
-import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
+import com.alexeym.atmayoga.ScheduledTasksManager;
 import com.alexeym.atmayoga.storage.ChatStorage;
 import com.alexeym.atmayoga.storage.CommonStorage;
 import com.alexeym.atmayoga.storage.MessageStorage;

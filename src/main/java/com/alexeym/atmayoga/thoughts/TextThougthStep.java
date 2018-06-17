@@ -3,14 +3,21 @@ package com.alexeym.atmayoga.thoughts;
 /**
  * @author Alexey Matveev on 15.06.2018
  */
-public class SendTextThougthStep extends ThoughtStep {
+public class TextThougthStep extends ThoughtStep {
 
     private String text;
 
-    public SendTextThougthStep() {
+    public TextThougthStep() {
     }
 
-    public SendTextThougthStep(String text) {
+    @Override
+    public String toString() {
+        return "TextThougthStep{" +
+                "text='" + text + '\'' +
+                '}';
+    }
+
+    public TextThougthStep(String text) {
         this.text = text;
     }
 

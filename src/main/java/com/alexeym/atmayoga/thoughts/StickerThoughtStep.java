@@ -3,15 +3,22 @@ package com.alexeym.atmayoga.thoughts;
 /**
  * @author Alexey Matveev on 15.06.2018
  */
-public class SendStickerThoughtStep extends ThoughtStep {
+public class StickerThoughtStep extends ThoughtStep {
 
     private String stickerId;
 
-    public SendStickerThoughtStep() {
+    public StickerThoughtStep() {
     }
 
-    public SendStickerThoughtStep(String stickerId) {
+    public StickerThoughtStep(String stickerId) {
         this.stickerId = stickerId;
+    }
+
+    @Override
+    public String toString() {
+        return "StickerThoughtStep{" +
+                "stickerId='" + stickerId + '\'' +
+                '}';
     }
 
     public String getStickerId() {

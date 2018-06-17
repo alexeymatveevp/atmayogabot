@@ -1,7 +1,6 @@
 package com.alexeym.atmayoga;
 
 import com.alexeym.atmayoga.bot.AtmayogaBot;
-import com.alexeym.atmayoga.scheduler.ScheduledTasksManager;
 
 /**
  * My sweet global context... mmm.
@@ -13,6 +12,6 @@ public class GlobalContext {
 
     public static AtmayogaBot BOT;
     public static ScheduledTasksManager SCHEDULING_MANAGER;
-    public static Long currentChatId;
+    public static Long currentChatId = YogaConstants.TRAINING_CHAT_ID;
 
 }
