@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga;
 
+import com.alexeym.atmayoga.asanaguess.AsanaGuessGame;
 import com.alexeym.atmayoga.bot.AtmayogaBot;
 
 /**
@@ -12,6 +13,7 @@ public class GlobalContext {
 
     public static AtmayogaBot BOT;
     public static ScheduledTasksManager SCHEDULING_MANAGER;
+    public static AsanaGuessGame GUESS_GAME;
     public static Long currentChatId = YogaConstants.TRAINING_CHAT_ID;
 
 }

@@ -102,7 +102,11 @@ public class StatisticPrinter {
                 }
             }
         } else {
-            text.append("Хм.. кажется в этом месяце еще никто не посещал занятия (могу врать)");
+            if (durationUnit == DurationUnit.WEEK) {
+                text.append("Хм.. кажется на этой неделе еще никто не посещал занятия - но это только пока!");
+            } else if (durationUnit == DurationUnit.MONTH) {
+                text.append("Хм.. кажется в этом месяце еще никто не посещал занятия (могу врать)");
+            }
             result.setInterestRate(0);
         }
         result.setText(text.toString());

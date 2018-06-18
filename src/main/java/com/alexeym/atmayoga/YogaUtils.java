@@ -1,6 +1,7 @@
 package com.alexeym.atmayoga;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.temporal.WeekFields;
@@ -93,6 +94,19 @@ public class YogaUtils {
     public static boolean fistWeekOfMonthPassed() {
         LocalDate now = LocalDate.now();
         return now.getDayOfMonth() > 7;
+    }
+
+    public static int randomiseDaytimeHourShiftForTime(LocalDateTime date) {
+        // get any hour which is 10-21 for today
+        // if it's not possible, for ex. if it's 23:00 already - return 0
+        int hour = date.getHour();
+        if (hour >= 21) {
+            return 0;
+        }
+        if (hour >= 10) {
+            return (int) (Math.random() * (21 - hour));
+        }
+        return (int) (Math.random() * (21 - 10)) + (10 - hour);
     }
 
 }

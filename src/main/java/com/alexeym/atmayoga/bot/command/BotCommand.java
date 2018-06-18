@@ -20,6 +20,7 @@ public interface BotCommand {
     String STAT_MY_ACTIVITY = "/stat_my_activity";
     String TAVRIK = "/tavrik";
     String KOTIK = "/kotik";
+    String ASANA_GUESS_GAME = "/asana_guess_game";
 
     String executeAndGetUserResponse(Message userMsg);
 

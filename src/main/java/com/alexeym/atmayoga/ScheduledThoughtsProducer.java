@@ -13,8 +13,10 @@ import com.alexeym.atmayoga.thoughts.impl.SimpleThought;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +28,9 @@ public class ScheduledThoughtsProducer {
     ThoughtsSender thoughtsSender = new ThoughtsSender();
     SheetDataService sheetDataService = new SheetDataService();
     StatisticPrinter statisticPrinter = new StatisticPrinter();
+
+    // safety set which ensures the same task is not executed twice at the same time
+    Set<Long> currentlyProcessingThoughtId = new HashSet<>();
 
     public void periodicalThoughtsCheck() {
         try {
@@ -43,10 +48,41 @@ public class ScheduledThoughtsProducer {
                     .filter(t -> t.getDue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isEqual(LocalDate.now()))
                     .collect(Collectors.toList());
 
-            System.out.println(priorityThoughts);
-            System.out.println(thoughtsForToday);
+            // hmm.. lets just send them all for now
+            if (CollectionUtils.isNotEmpty(priorityThoughts)) {
+                priorityThoughts.forEach(thought -> {
+                    if (ensureCanProcessThought(thought)) {
+                        try {
+                            System.out.println("found priority thought, sending...");
+                            thoughtsSender.sendThought(thought);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            postProcessThought(thought);
+                        }
+                    }
+                });
+            }
 
-
+            // schedule at random moment
+            if (CollectionUtils.isNotEmpty(thoughtsForToday)) {
+                thoughtsForToday.forEach(thought -> {
+                    if (ensureCanProcessThought(thought)) {
+                        // random shift, but not > today
+                        int delayHours = YogaUtils.randomiseDaytimeHourShiftForTime(LocalDateTime.now());
+                        System.out.println("scheduling thought for today with hour delay: " + delayHours);
+                        GlobalContext.SCHEDULING_MANAGER.runTaskWithDelay(() -> {
+                            try {
+                                thoughtsSender.sendThought(thought);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            } finally {
+                                postProcessThought(thought);
+                            }
+                        }, delayHours, TimeUnit.HOURS);
+                    }
+                });
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,10 +96,19 @@ public class ScheduledThoughtsProducer {
         // mix with statistical static thoughts
         try {
             List<Thought> thoughts = checkvistThoughtsCollector.getThoughts();
-            // consider date
+            // filter-out due-date thoughts
+            thoughts = thoughts.stream()
+                    .filter(t -> t.getDue() == null)
+                    .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(thoughts)) {
                 Thought thought = YogaUtils.getRandomItem(thoughts);
-                thoughtsSender.sendThought(thought);
+                if (ensureCanProcessThought(thought)) {
+                    try {
+                        thoughtsSender.sendThought(thought);
+                    } finally {
+                        postProcessThought(thought);
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +161,33 @@ public class ScheduledThoughtsProducer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean ensureCanProcessThought(Thought thought) {
+        if (thought == null) {
+            return false;
+        }
+        Long thoughtId = thought.getId();
+        if (thoughtId == null) {
+            return true; // cant say
+        }
+        if (!currentlyProcessingThoughtId.contains(thoughtId)) {
+            currentlyProcessingThoughtId.add(thoughtId);
+            return true; // lock and process
+        } else {
+            return false; // already processing
+        }
+    }
+
+    private void postProcessThought(Thought thought) {
+        if (thought == null) {
+            return;
+        }
+        Long id = thought.getId();
+        if (id == null) {
+            return;
+        }
+        currentlyProcessingThoughtId.remove(id);
     }
 
     public Thought produceRandomThought() throws Exception {

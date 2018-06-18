@@ -52,10 +52,13 @@ public class CheckvistService {
                 .get()
                 .build();
         Response response = client.newCall(request).execute();
-        String responseJson = response.body().string();
-        List<Task> tasks = objectMapper.readValue(responseJson, new TypeReference<List<Task>>() {});
-        // resolve 2nd level tasks
-        return linkSubTasks(tasks);
+        try (ResponseBody body = response.body()) {
+            String responseJson = body.string();
+            List<Task> tasks = objectMapper.readValue(responseJson, new TypeReference<List<Task>>() {
+            });
+            // resolve 2nd level tasks
+            return linkSubTasks(tasks);
+        }
     }
 
     public void closeTask(Long checklistId, Long taskId) throws Exception {

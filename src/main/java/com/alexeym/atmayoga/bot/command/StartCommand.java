@@ -27,7 +27,8 @@ public class StartCommand implements BotCommand {
         t += BotCommand.STAT_MONTH_TOP3 + " - список топ-3 по посещениям за месяц\n";
         t += BotCommand.STAT_MY_ACTIVITY + " - узнать свою суммарную йога-активность\n\n";
         t += "другое\n";
-        t += BotCommand.TAVRIK + " - узнать что там по таврику\n";
+        t += BotCommand.TAVRIK + " - узнать что там по таврику\n\n";
+        t += BotCommand.ASANA_GUESS_GAME + " - игра \"угадай асану\"\n";
         t += "(+ ищи пасхалку)";
         return t;
     }

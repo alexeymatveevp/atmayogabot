@@ -31,28 +31,28 @@ public class ScheduledTasksManager {
 
     public void initAlgorithm() {
         // repeatedly check prio and due tasks
-//        executor.scheduleAtFixedRate(this::periodicalThoughtsCheck, 1, 5,TimeUnit.MINUTES);
-        executor.scheduleAtFixedRate(scheduledThoughtsProducer::periodicalThoughtsCheck, 2, 10,TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(scheduledThoughtsProducer::periodicalThoughtsCheck, 1, 5,TimeUnit.MINUTES);
+//        executor.scheduleAtFixedRate(scheduledThoughtsProducer::periodicalThoughtsCheck, 2, 10,TimeUnit.SECONDS);
 
         // every day perform random thought dice roll
         // also roll for random time: 10am - 9pm
-//        Cron4j.scheduler.schedule(Cron4j.EVERY_DAY_AT_10_AM, () -> {
-//            int produceThoughtDice = (int) (Math.random() * 3); // 66% yes, 33% no
-//            if (produceThoughtDice < 2) {
-//                int timeShift = (int) (Math.random() * 12); // 0-11
-//                executor.schedule(scheduledThoughtsProducer::periodicalThoughtProduceSuitable, timeShift, TimeUnit.HOURS);
-//            } else {
-//                System.out.println("Thought not produced today because of the dice: " + produceThoughtDice);
-//            }
-//        });
-        Cron4j.scheduler.schedule(Cron4j.EVERY_MINUTE, () -> {
-                executor.schedule(scheduledThoughtsProducer::periodicalThoughtProduceSuitable, 0, TimeUnit.SECONDS);
+        Cron4j.scheduler.schedule(Cron4j.EVERY_DAY_AT_10_AM, () -> {
+            int produceThoughtDice = (int) (Math.random() * 3); // 66% yes, 33% no
+            if (produceThoughtDice < 2) {
+                int timeShift = (int) (Math.random() * 12); // 0-11
+                executor.schedule(scheduledThoughtsProducer::periodicalThoughtProduceSuitable, timeShift, TimeUnit.HOURS);
+            } else {
+                System.out.println("Thought not produced today because of the dice: " + produceThoughtDice);
+            }
         });
+//        Cron4j.scheduler.schedule(Cron4j.EVERY_MINUTE, () -> {
+//                executor.schedule(scheduledThoughtsProducer::periodicalThoughtProduceSuitable, 0, TimeUnit.SECONDS);
+//        });
 
         // every week perform a statistical overview
         // should be not very long and with a lot of variations
-//        Cron4j.scheduler.schedule(Cron4j.EVERY_WEEK_SUNDAY_18_PM, () -> {
-        Cron4j.scheduler.schedule(Cron4j.EVERY_MINUTE, () -> {
+        Cron4j.scheduler.schedule(Cron4j.EVERY_WEEK_SUNDAY_18_PM, () -> {
+//        Cron4j.scheduler.schedule(Cron4j.EVERY_MINUTE, () -> {
             executor.schedule(scheduledThoughtsProducer::periodicalWeeklyThoughts, 0, TimeUnit.SECONDS);
         });
 

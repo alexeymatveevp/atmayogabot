@@ -23,40 +23,27 @@ public class ThoughtsSender {
     CheckvistService checkvistService = new CheckvistService();
     CommonStorage storage = new CommonStorage();
 
-    // safety set which ensures the same task is not executed twice at the same time
-    Set<Long> currentlyProcessingThoughtId = new HashSet<>();
+
 
     public void sendThought(Thought thought) throws Exception {
         if (thought != null) {
             System.out.println("picked thought: " + thought.getType() + " with prio: " + thought.getPriority());
-            Long thoughtId = thought.getId();
-            if (thoughtId == null || !currentlyProcessingThoughtId.contains(thoughtId)) {
-                if (thoughtId != null) {
-                    currentlyProcessingThoughtId.add(thoughtId);
-                }
-                List<ThoughtStep> steps = thought.getSteps();
-                Iterator<ThoughtStep> iterator = steps.iterator();
-                processNextStep(iterator, success -> {
-                    try {
-                        if (success) {
-                            if (thought instanceof CheckvistThought) {
-                                try {
-                                    CheckvistThought checkvistThought = (CheckvistThought) thought;
-                                    checkvistService.closeTask(checkvistThought.getChecklistId(), checkvistThought.getId());
-                                } catch (Exception e) {
-                                    System.out.println("Error closing checkvist task: " + thought);
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    } finally {
-                        if (thoughtId != null) {
-                            currentlyProcessingThoughtId.remove(thoughtId);
+            List<ThoughtStep> steps = thought.getSteps();
+            Iterator<ThoughtStep> iterator = steps.iterator();
+            processNextStep(iterator, success -> {
+                if (success) {
+                    if (thought instanceof CheckvistThought) {
+                        try {
+                            CheckvistThought checkvistThought = (CheckvistThought) thought;
+                            checkvistService.closeTask(checkvistThought.getChecklistId(), checkvistThought.getId());
+                        } catch (Exception e) {
+                            System.out.println("Error closing checkvist task: " + thought);
+                            e.printStackTrace();
                         }
                     }
-                    return null;
-                });
-            }
+                }
+                return null;
+            });
             storage.upsert(new ThoughtMemory(new Date(), thought.getName(), thought.getType().name()));
         } else {
             System.out.println("Warning! No new thoughts found.");

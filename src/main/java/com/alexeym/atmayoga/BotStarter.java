@@ -1,5 +1,6 @@
 package com.alexeym.atmayoga;
 
+import com.alexeym.atmayoga.asanaguess.AsanaGuessGame;
 import com.alexeym.atmayoga.bot.AtmayogaBot;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
@@ -23,6 +24,7 @@ public class BotStarter {
         // horray! I can set everything to global context
         GlobalContext.BOT = bot;
         GlobalContext.SCHEDULING_MANAGER = scheduledTasksManager;
+        GlobalContext.GUESS_GAME = new AsanaGuessGame();
         // yay!!!
 
         // setup cron4j scheduler

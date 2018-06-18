@@ -1,6 +1,8 @@
 package com.alexeym.atmayoga.bot;
 
 import com.alexeym.atmayoga.GlobalContext;
+import com.alexeym.atmayoga.asanaguess.AsanaGuessGame;
+import com.alexeym.atmayoga.asanaguess.GuessResult;
 import com.alexeym.atmayoga.bot.command.*;
 import com.alexeym.atmayoga.storage.MessageStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
@@ -24,6 +26,7 @@ public class UserMessageHandler {
     KotikCommand kotikCommand = new KotikCommand();
     TavrikCommand tavrikCommand = new TavrikCommand();
     MyActivityCommand myActivityCommand = new MyActivityCommand();
+    AsanaGuessCommand asanaGuessCommand = new AsanaGuessCommand();
 
     public void handleUserMessage(Message message) {
         Long chatId = message.getChatId();
@@ -48,12 +51,31 @@ public class UserMessageHandler {
             else if (text.startsWith(BotCommand.TAVRIK)) command = tavrikCommand;
             else if (text.startsWith(BotCommand.STAT_MY_ACTIVITY)) command = myActivityCommand;
             else if (text.startsWith(BotCommand.KOTIK)) command = kotikCommand;
+            else if (text.startsWith(BotCommand.ASANA_GUESS_GAME)) command = asanaGuessCommand;
 
             // execute it and send response
             if (command != null) {
                 String responseToUser = command.executeAndGetUserResponse(message);
                 if (responseToUser != null) {
                     GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, responseToUser));
+                }
+            } else {
+                // check game status
+                AsanaGuessGame game = GlobalContext.GUESS_GAME;
+                if (game.isGameStarted(chatId)) {
+                    GuessResult guessResult = game.guessMessage(chatId, text);
+                    if (guessResult.isCorrect()) {
+                        if (guessResult.getMatchPercentage() == 100) {
+                            GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "Да 100% верно!)"));
+                            game.stopGameForChat(chatId);
+                        } else {
+                            GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "Почти, верно на " + guessResult.getMatchPercentage() + " процентов, " +
+                                    "правильный ответ: " + game.getCorrectResultForChat(chatId)));
+                            game.stopGameForChat(chatId);
+                        }
+                    } else {
+                        GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "хм.. нет"));
+                    }
                 }
             }
         }
