@@ -15,7 +15,7 @@ public class UserStorage {
         return JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
     }
 
-    public void anotherUserCame(User user) {
+    public YogaUser anotherUserCame(User user) {
         Integer id = user.getId();
         YogaUser yogaUser = JsonDBInit.jsonDBTemplate.findById(id, YogaUser.class);
         if (yogaUser == null) {
@@ -27,6 +27,7 @@ public class UserStorage {
         yogaUser.setLastName(user.getLastName());
         yogaUser.setUsername(user.getUserName());
         JsonDBInit.jsonDBTemplate.upsert(yogaUser);
+        return yogaUser;
     }
 
 }

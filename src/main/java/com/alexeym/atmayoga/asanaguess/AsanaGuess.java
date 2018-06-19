@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author Alexey Matveev on 18.06.2018
@@ -15,11 +16,13 @@ public class AsanaGuess {
     String asanaSticker;
     LocalDateTime start;
     List<YogaMessage> messages;
+    ScheduledFuture gameTimeoutFuture;
 
-    public AsanaGuess(Long chatId, String asanaSticker, LocalDateTime start) {
+    public AsanaGuess(Long chatId, String asanaSticker, LocalDateTime start, ScheduledFuture gameTimeoutFuture) {
         this.chatId = chatId;
         this.asanaSticker = asanaSticker;
         this.start = start;
+        this.gameTimeoutFuture = gameTimeoutFuture;
     }
 
     public Long getChatId() {
@@ -59,5 +62,13 @@ public class AsanaGuess {
 
     public void setMessages(List<YogaMessage> messages) {
         this.messages = messages;
+    }
+
+    public ScheduledFuture getGameTimeoutFuture() {
+        return gameTimeoutFuture;
+    }
+
+    public void setGameTimeoutFuture(ScheduledFuture gameTimeoutFuture) {
+        this.gameTimeoutFuture = gameTimeoutFuture;
     }
 }

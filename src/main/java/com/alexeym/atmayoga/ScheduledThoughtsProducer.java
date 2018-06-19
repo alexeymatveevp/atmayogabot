@@ -53,7 +53,7 @@ public class ScheduledThoughtsProducer {
                 priorityThoughts.forEach(thought -> {
                     if (ensureCanProcessThought(thought)) {
                         try {
-                            System.out.println("found priority thought, sending...");
+                            System.out.println("found priority thought:" + thought.toString() + ", sending...");
                             thoughtsSender.sendThought(thought);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -70,7 +70,7 @@ public class ScheduledThoughtsProducer {
                     if (ensureCanProcessThought(thought)) {
                         // random shift, but not > today
                         int delayHours = YogaUtils.randomiseDaytimeHourShiftForTime(LocalDateTime.now());
-                        System.out.println("scheduling thought for today with hour delay: " + delayHours);
+                        System.out.println("scheduling thought for today:" + thought.toString() + "; it will be published at " + LocalDateTime.now().plusHours(delayHours));
                         GlobalContext.SCHEDULING_MANAGER.runTaskWithDelay(() -> {
                             try {
                                 thoughtsSender.sendThought(thought);

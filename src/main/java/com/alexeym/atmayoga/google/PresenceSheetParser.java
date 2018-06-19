@@ -8,33 +8,7 @@ import java.util.*;
 
 public class PresenceSheetParser {
 
-    /**
-     * Will map all non-intuitive user names.
-     * The ones like "Евгений Бабенко" are ok, so they are not in the map.
-     * If no user in map - treat them as usual with .split(" ").
-     */
-    // TODO match not by username but by ID, need to collect all ids
-    Map<String, String> PRESENCE_NAME_TO_TELEGRAM_NAME_MAP = new HashMap<>();
 
-    {
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Эвьяван", "Эвиаван");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Кирилл", "Kirill Golm");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Анатолий", "Anatoly Vostryakov");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Леша", "Alexey Matveev");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Наталья СМ", "Natali");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Саша", "Котова Саша");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Оксана", "Oksana Fonicheva");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Лена", null); // ???
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Наталья", null); // ???
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Наталья Общительная", "Natalia");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Даша ", "Дарья Романцева");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Алена Лисенкина", "Alena Lisenkina");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Максим", "Максим Топоров");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Рузанна", "Ruzanna Martirosyan");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Настя Нестерова", "Nastya Nesterova");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Дмитрий", "Dmitry Nazarov");
-        PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Надежда", "Nadezhda");
-    }
 
     public List<PresenceItem> parsePresenceSheetItems(List<List<Object>> sheet) {
         List<PresenceItem> result = new ArrayList<>();

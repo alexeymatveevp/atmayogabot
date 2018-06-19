@@ -4,6 +4,8 @@ import com.alexeym.atmayoga.GlobalContext;
 import com.alexeym.atmayoga.asanaguess.AsanaGuessGame;
 import com.alexeym.atmayoga.asanaguess.GuessResult;
 import com.alexeym.atmayoga.bot.command.*;
+import com.alexeym.atmayoga.google.YogaUserMatcher;
+import com.alexeym.atmayoga.model.YogaUser;
 import com.alexeym.atmayoga.storage.MessageStorage;
 import com.alexeym.atmayoga.storage.UserStorage;
 import org.telegram.telegrambots.api.objects.Message;
@@ -19,6 +21,7 @@ public class UserMessageHandler {
 
     UserStorage userStorage = new UserStorage();
     MessageStorage messageStorage = new MessageStorage();
+    YogaUserMatcher yogaUserMatcher = new YogaUserMatcher();
 
     StartCommand startCommand = new StartCommand();
     LastTrainingCommand lastTrainingCommand = new LastTrainingCommand();
@@ -34,7 +37,7 @@ public class UserMessageHandler {
         User user = message.getFrom();
 
         // just ping storage that another user is here
-        userStorage.anotherUserCame(user);
+        YogaUser yogaUser = userStorage.anotherUserCame(user);
 
         // store non-command user messages
         if (text != null && !text.startsWith("/")) {
@@ -60,23 +63,8 @@ public class UserMessageHandler {
                     GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, responseToUser));
                 }
             } else {
-                // check game status
-                AsanaGuessGame game = GlobalContext.GUESS_GAME;
-                if (game.isGameStarted(chatId)) {
-                    GuessResult guessResult = game.guessMessage(chatId, text);
-                    if (guessResult.isCorrect()) {
-                        if (guessResult.getMatchPercentage() == 100) {
-                            GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "Да 100% верно!)"));
-                            game.stopGameForChat(chatId);
-                        } else {
-                            GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "Почти, верно на " + guessResult.getMatchPercentage() + " процентов, " +
-                                    "правильный ответ: " + game.getCorrectResultForChat(chatId)));
-                            game.stopGameForChat(chatId);
-                        }
-                    } else {
-                        GlobalContext.BOT.sendMsgErrorless(BotUtils.createTextMsg(chatId, "хм.. нет"));
-                    }
-                }
+                // check if game is started and handle guess
+                asanaGuessCommand.handleUserGuess(chatId, yogaUser, text);
             }
         }
     }

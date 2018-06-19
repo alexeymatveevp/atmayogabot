@@ -2,6 +2,7 @@ package com.alexeym.atmayoga;
 
 import com.alexeym.atmayoga.scheduler.Cron4j;
 
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -60,8 +61,8 @@ public class ScheduledTasksManager {
         Cron4j.scheduler.start();
     }
 
-    public void runTaskWithDelay(Runnable task, int delay, TimeUnit timeUnit) {
-        executor.schedule(task, delay, timeUnit);
+    public ScheduledFuture runTaskWithDelay(Runnable task, int delay, TimeUnit timeUnit) {
+        return executor.schedule(task, delay, timeUnit);
     }
 
     /**
