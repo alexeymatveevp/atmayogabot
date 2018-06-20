@@ -35,6 +35,11 @@ public class YogaUser {
         if (username != null) {
             return "@" + username;
         }
+        return getName();
+    }
+
+    @JsonIgnore
+    public String getName() {
         if (firstName == null) {
             return lastName;
         }

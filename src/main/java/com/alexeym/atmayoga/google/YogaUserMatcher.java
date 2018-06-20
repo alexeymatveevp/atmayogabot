@@ -20,8 +20,8 @@ public class YogaUserMatcher {
      * If no user in map - treat them as usual with .split(" ").
      */
     // TODO match not by username but by ID, need to collect all ids
-    Map<String, String> PRESENCE_NAME_TO_TELEGRAM_NAME_MAP = new HashMap<>();
-    Map<String, String> TELEGRAM_TO_PRESENCE_REVERSE_MAP = new HashMap<>();
+    public final Map<String, String> PRESENCE_NAME_TO_TELEGRAM_NAME_MAP = new HashMap<>();
+    public final Map<String, String> TELEGRAM_TO_PRESENCE_REVERSE_MAP = new HashMap<>();
 
     {
         PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.put("Эвьяван", "Эвиаван");
@@ -91,6 +91,18 @@ public class YogaUserMatcher {
             return true;
         }
         return false;
+    }
+
+    public String getTelegramNameFromPresenceSheetName(String sheetUserName) {
+        String adoptedName = PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.get(sheetUserName);
+        return adoptedName == null ? sheetUserName : adoptedName;
+    }
+
+    public String getPresenceSheetNameFromTelegramUser(YogaUser user) {
+        // hm.. should be fname + " " + lname
+        // but can be exceptions
+        // in exceptional case return null
+        return TELEGRAM_TO_PRESENCE_REVERSE_MAP.get(user.getName());
     }
 
 }

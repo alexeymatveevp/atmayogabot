@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PresenceSheetParser {
 
-
+    YogaUserMatcher yogaUserMatcher = new YogaUserMatcher();
 
     public List<PresenceItem> parsePresenceSheetItems(List<List<Object>> sheet) {
         List<PresenceItem> result = new ArrayList<>();
@@ -47,7 +47,7 @@ public class PresenceSheetParser {
             }
             YogaUser yogaUser = new YogaUser();
             // adopt the yoga user name because they do not match in the sheet and in telegram
-            nameOrEmpty = getAdoptedUserName(nameOrEmpty);
+            nameOrEmpty = yogaUserMatcher.getTelegramNameFromPresenceSheetName(nameOrEmpty);
             String[] nameParts = nameOrEmpty.split(" ");
             if (nameParts.length == 1) {
                 yogaUser.setFirstName(nameParts[0]);
@@ -80,11 +80,6 @@ public class PresenceSheetParser {
             }
         }
         return result;
-    }
-
-    private String getAdoptedUserName(String sheetUserName) {
-        String adoptedName = PRESENCE_NAME_TO_TELEGRAM_NAME_MAP.get(sheetUserName);
-        return adoptedName == null ? sheetUserName : adoptedName;
     }
 
 }
